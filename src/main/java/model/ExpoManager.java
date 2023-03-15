@@ -4,9 +4,7 @@ import jdbc.ExpoDataAccess;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class ExpoManager implements Expo {
     private ExpoDataAccess expoDataAccess;

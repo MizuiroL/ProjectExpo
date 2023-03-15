@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class Exhibitor {
     private Integer exhibitorId;
