@@ -45,7 +45,6 @@ build/
 *.xmi
 *.txt
 *.dat
-*.xml
 *.ser
 *.ini
 *.log
