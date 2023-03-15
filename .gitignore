@@ -36,3 +36,21 @@ build/
 
 ### Mac OS ###
 .DS_Store
+.metadata/.log
+.metadata/.lock
+*.version
+*.index
+*.tree
+*.resources
+*.xmi
+*.txt
+*.dat
+*.xml
+*.ser
+*.ini
+*.log
+*.setup
+.metadata/.plugins/org.eclipse.jdt.core/assumedExternalFilesCache
+.metadata/.plugins/org.eclipse.jdt.core/externalFilesCache
+.metadata/.plugins/org.eclipse.jdt.core/nonChainingJarsCache
+.metadata/.plugins/org.eclipse.ui.intro/introstate
