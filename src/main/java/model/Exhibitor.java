@@ -34,14 +34,19 @@ public class Exhibitor {
         return exhibitionList;
     }
 
-    public boolean bookExhibitionArea(Expo expo, LocalDateTime start, LocalDateTime end) throws SQLException {
+    public void printExhibitions() throws SQLException {
+        for (Exhibition e : this.getExhibitionList()) {
+            System.out.println(e);
+        }
+    }
+
+    public Exhibition bookExhibitionArea(Expo expo, LocalDateTime start, LocalDateTime end) throws SQLException {
         Exhibition exhibition = expo.concedeExhibitionArea(this, start, end);
         if (exhibition != null) {
             exhibitionList.add(exhibition);
-            return true;
-        } else {
-            return false;
+            exhibition = new ExhibitionDataAccess().newExhibition(exhibition);
         }
+        return exhibition;
     }
 
     @Override
