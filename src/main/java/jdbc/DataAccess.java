@@ -20,7 +20,7 @@ public abstract class DataAccess {
     }
 
     public void openConnection() throws SQLException {
-        Connection connection = DriverManager.getConnection(DBData.URL, DBData.USERNAME, DBData.PASSWORD);
+        connection = DriverManager.getConnection(DBData.URL, DBData.USERNAME, DBData.PASSWORD);
     }
 
     public void closeConnection() throws SQLException {
