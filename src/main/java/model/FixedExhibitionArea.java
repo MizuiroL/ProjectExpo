@@ -41,8 +41,12 @@ public class FixedExhibitionArea implements ExhibitionArea {
 
     public boolean isOccupied(LocalDateTime start, LocalDateTime end) throws SQLException {
         List<Exhibition> exhibitionList = exhibitionAreaDataAccess.getExhibitionsByExhibitionAreaId(this.exhibitionAreaId);
-        for(Exhibition o : exhibitionList) {
-            if(start.isAfter(o.getExhibitionStartDate()) && start.isBefore(o.getExhibitionEndDate()) || end.isAfter(o.getExhibitionStartDate()) && end.isBefore(o.getExhibitionEndDate())) {
+        for (Exhibition o : exhibitionList) {
+            Boolean startOverlap = start.isAfter(o.getExhibitionStartDate()) && start.isBefore(o.getExhibitionEndDate());
+            Boolean endOverlap = end.isAfter(o.getExhibitionStartDate()) && end.isBefore(o.getExhibitionEndDate());
+            Boolean completeOverlap = start.isBefore(o.getExhibitionStartDate()) && end.isAfter(o.getExhibitionEndDate());
+
+            if (startOverlap || endOverlap || completeOverlap) {
                 return true;
             }
         }
