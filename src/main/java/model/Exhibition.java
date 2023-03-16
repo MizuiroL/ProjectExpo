@@ -54,4 +54,16 @@ public class Exhibition {
     public void setExhibitionId(Integer exhibitionId) {
         this.exhibitionId = exhibitionId;
     }
+
+    @Override
+    public String toString() {
+        return "Exhibition{" +
+                "exhibitionId=" + exhibitionId +
+                ", exhibitionAreaId=" + exhibitionAreaId +
+                ", exhibitorId=" + exhibitorId +
+                ", exhibitionName='" + exhibitionName + '\'' +
+                ", exhibitionStartDate=" + exhibitionStartDate +
+                ", exhibitionEndDate=" + exhibitionEndDate +
+                '}';
+    }
 }
