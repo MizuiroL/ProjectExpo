@@ -31,23 +31,15 @@ public class ExhibitorDataAccess extends DataAccess {
         ResultSet rs = statement.executeQuery();
         if (rs.next()) {
             String exhibitorName = rs.getString("exhibitorName");
-            closeConnection();
             exhibitor = new Exhibitor(exhibitorId, exhibitorName);
         }
-        closeConnection();
+        this.closeConnection();
         return exhibitor;
     }
     public List<Exhibit> getExhibitsByExhibitorId(Integer exhibitorId) throws SQLException {
         List<Exhibit> exhibitList = new ArrayList<>();
         this.openConnection();
-        String query = "SELECT exhibitId AS id, exhibitAreaId, exhibitorId, exhibitName AS name, exhibitStartDate AS startDate, exhibitEndDate AS endDate\n" +
-                "FROM exhibit\n" +
-                "WHERE exhibitorId=?\n" +
-                "UNION\n" +
-                "SELECT eventId AS id, exhibitAreaId, exhibitorId, eventName AS name, eventStartDate AS startDate, eventEndDate AS endDate\n" +
-                "FROM event\n" +
-                "WHERE exhibitorId=?\n" +
-                "ORDER BY id;";
+
         PreparedStatement statement = getConnection().prepareStatement(selectExhibitsByExhibitorId);
         statement.setInt(1, exhibitorId);
         statement.setInt(2, exhibitorId);
@@ -56,8 +48,8 @@ public class ExhibitorDataAccess extends DataAccess {
             Integer exhibitId = rs.getInt("id");
             Integer exhibitAreaId = rs.getInt("exhibitAreaId");
             String name = rs.getString("name");
-            LocalDateTime start = rs.getDate("startDate").toLocalDate().atStartOfDay();
-            LocalDateTime end = rs.getDate("endDate").toLocalDate().atStartOfDay();
+            LocalDateTime start = LocalDateTime.of(rs.getDate("exhibitStartDate").toLocalDate(), rs.getTime("exhibitStartTime").toLocalTime());
+            LocalDateTime end = LocalDateTime.of(rs.getDate("exhibitEndDate").toLocalDate(), rs.getTime("exhibitEndTime").toLocalTime());
             exhibitList.add(new Exhibit(exhibitId, exhibitAreaId, exhibitorId, name, start, end));
         }
         closeConnection();

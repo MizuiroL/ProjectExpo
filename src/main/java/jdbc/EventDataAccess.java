@@ -13,14 +13,11 @@ public class EventDataAccess  extends DataAccess {
     public Event getEventById(Integer eventId) throws SQLException {
         Event event = null;
         this.openConnection();
-        String query = "SELECT *\n" +
-                "FROM event\n" +
-                "WHERE eventId=?;";
+
         PreparedStatement statement = getConnection().prepareStatement(selectEventById);
         statement.setInt(1, eventId);
         ResultSet rs = statement.executeQuery();
         if (rs.next()) {
-            //Integer expoId = rs.getInt("expoId");
             Integer exhibitAreaId = rs.getInt("exhibitAreaId");
             Integer exhibitorId = rs.getInt("exhibitorId");
             String eventName = rs.getString("eventName");

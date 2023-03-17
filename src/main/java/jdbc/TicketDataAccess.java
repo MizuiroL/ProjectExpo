@@ -8,9 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TicketDataAccess extends DataAccess {
-    private static final String selectTicketByCode = "SELECT *\n" +
+    private static final String selectTicketByCode = "" +
+            "SELECT *\n" +
             "FROM ticket\n" +
             "WHERE ticketCode=?";
+
+    private static final String insertTicket = "" +
+            "INSERT INTO ticket(eventId, fiscalCode)\n" +
+            "VALUES (?,?);";
     public Ticket getTicketByCode(Integer ticketCode) throws SQLException {
         Ticket ticket = null;
         this.openConnection();
@@ -28,9 +33,8 @@ public class TicketDataAccess extends DataAccess {
 
     public Ticket newTicket(Ticket ticket) throws SQLException {
         this.openConnection();
-        String query = "INSERT INTO ticket(eventId, fiscalCode) VALUES (?,?);";
         ResultSet generatedKeys;
-        try (PreparedStatement statement = getConnection().prepareStatement(query)) {
+        try (PreparedStatement statement = getConnection().prepareStatement(insertTicket)) {
             statement.setInt(1, ticket.getEventId());
             statement.setString(2, ticket.getFiscalCode());
 
@@ -43,6 +47,7 @@ public class TicketDataAccess extends DataAccess {
         if (generatedKeys.next()) {
             ticket.setTicketCode(generatedKeys.getInt(1));
         }
+        this.closeConnection();
         return ticket;
     }
 }

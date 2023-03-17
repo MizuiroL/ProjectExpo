@@ -31,29 +31,32 @@ public class ExhibitAreaDataAccess extends DataAccess {
         if (rs.next()) {
             //Integer expoId = rs.getInt("expoId");
             Integer expoId = rs.getInt("expoId");
-            closeConnection();
             exhibitArea = new FixedExhibitArea(exhibitAreaId, expoId);
         }
         closeConnection();
         return exhibitArea;
     }
 
-    public List<Exhibit> getExhibitsByExhibitAreaId(Integer exhibitAreaId) throws SQLException {
+    public List<Exhibit> getExhibitsByExhibitAreaId(Integer exhibitAreaId) {
         List<Exhibit> exhibitList = new ArrayList<>();
-        this.openConnection();
-        PreparedStatement statement = getConnection().prepareStatement(selectExhibitsByExhibitAreaId);
-        statement.setInt(1, exhibitAreaId);
-        statement.setInt(2, exhibitAreaId);
-        ResultSet rs = statement.executeQuery();
-        while (rs.next()) {
-            Integer exhibitId = rs.getInt("id");
-            Integer exhibitorId = rs.getInt("exhibitorId");
-            String name = rs.getString("name");
-            LocalDateTime start = rs.getDate("startDate").toLocalDate().atStartOfDay();
-            LocalDateTime end = rs.getDate("endDate").toLocalDate().atStartOfDay();
-            exhibitList.add(new Exhibit(exhibitId, exhibitAreaId, exhibitorId, name, start, end));
+        try {
+            this.openConnection();
+            PreparedStatement statement = getConnection().prepareStatement(selectExhibitsByExhibitAreaId);
+            statement.setInt(1, exhibitAreaId);
+            statement.setInt(2, exhibitAreaId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Integer exhibitId = rs.getInt("id");
+                Integer exhibitorId = rs.getInt("exhibitorId");
+                String name = rs.getString("name");
+                LocalDateTime start = LocalDateTime.of(rs.getDate("exhibitStartDate").toLocalDate(), rs.getTime("exhibitStartTime").toLocalTime());
+                LocalDateTime end = LocalDateTime.of(rs.getDate("exhibitEndDate").toLocalDate(), rs.getTime("exhibitEndTime").toLocalTime());
+                exhibitList.add(new Exhibit(exhibitId, exhibitAreaId, exhibitorId, name, start, end));
+            }
+            closeConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        closeConnection();
         return exhibitList;
     }
 }

@@ -3,7 +3,7 @@ package jdbc;
 import model.*;
 
 import java.sql.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,41 +12,51 @@ public class ExpoDataAccess extends DataAccess {
             "SELECT *\n" +
             "FROM expo\n" +
             "WHERE expoId=?;";
-    public Expo getExpoById(Integer expoId) throws SQLException {
-        ExpoManager expoManager = null;
-        this.openConnection();
 
-        PreparedStatement statement = getConnection().prepareStatement(selectExpoById);
-        statement.setInt(1, expoId);
-        ResultSet rs = statement.executeQuery();
-        if (rs.next()) {
-            String province = rs.getString("province");
-            String comune = rs.getString("comune");
-            String address = rs.getString("address");
-            String streetNumber = rs.getString("streetNumber");
-            LocalDateTime startDate = rs.getDate("expoStartDate").toLocalDate().atStartOfDay();
-            LocalDateTime endDate = rs.getDate("expoEndDate").toLocalDate().atStartOfDay();
-            closeConnection();
-            expoManager = new ExpoManager(expoId, province, comune, address, streetNumber, startDate, endDate);
+    private static final String selectExhibitAreasByExpoId = "" +
+            "SELECT *\n" +
+            "FROM exhibitArea\n" +
+            "WHERE expoId=?;";
+
+    public Expo getExpoById(Integer expoId) {
+        ExpoManager expoManager = null;
+        try {
+            this.openConnection();
+
+            PreparedStatement statement = getConnection().prepareStatement(selectExpoById);
+            statement.setInt(1, expoId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                String province = rs.getString("province");
+                String comune = rs.getString("comune");
+                String address = rs.getString("address");
+                String streetNumber = rs.getString("streetNumber");
+                LocalDate startDate = rs.getDate("expoStartDate").toLocalDate();
+                LocalDate endDate = rs.getDate("expoEndDate").toLocalDate();
+                expoManager = new ExpoManager(expoId, province, comune, address, streetNumber, startDate, endDate);
+            }
+            this.closeConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        closeConnection();
         return expoManager;
     }
 
-    public List<ExhibitArea> getExhibitAreasByExpoId(Integer expoId) throws SQLException {
+    public List<ExhibitArea> getExhibitAreasByExpoId(Integer expoId) {
         List<ExhibitArea> exhibitAreaList = new ArrayList<>();
-        this.openConnection();
-        String query = "SELECT *\n" +
-                "FROM exhibitArea\n" +
-                "WHERE expoId=?;";
-        PreparedStatement statement = getConnection().prepareStatement(query);
-        statement.setInt(1, expoId);
-        ResultSet rs = statement.executeQuery();
-        while (rs.next()) {
-            Integer exhibitAreaId = rs.getInt("exhibitAreaId");
-            exhibitAreaList.add(new FixedExhibitArea(exhibitAreaId, expoId));
+        try {
+            this.openConnection();
+            PreparedStatement statement = getConnection().prepareStatement(selectExhibitAreasByExpoId);
+            statement.setInt(1, expoId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Integer exhibitAreaId = rs.getInt("exhibitAreaId");
+                exhibitAreaList.add(new FixedExhibitArea(exhibitAreaId, expoId));
+            }
+            this.closeConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        closeConnection();
         return exhibitAreaList;
     }
 

@@ -18,15 +18,13 @@ public class VisitorDataAccess  extends DataAccess {
         statement.setString(1, fiscalCode);
         ResultSet rs = statement.executeQuery();
         if (rs.next()) {
-            //Integer expoId = rs.getInt("expoId");
             Integer expoId = rs.getInt("expoId");
             String name = rs.getString("name");
             String surname = rs.getString("surname");
             String email = rs.getString("email");
-            closeConnection();
             visitor = new Visitor(fiscalCode, expoId, name, surname, email);
         }
-        closeConnection();
+        this.closeConnection();
         return visitor;
     }
 }
