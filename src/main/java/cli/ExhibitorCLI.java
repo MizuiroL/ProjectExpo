@@ -19,7 +19,7 @@ public class ExhibitorCLI {
         return exhibitor;
     }
 
-    public static void newExhibit() throws SQLException {
+    public static void newExhibit() {
         int input;
         do {
             System.out.println("0: Back\n1: New Exhibit\n2: New Event");
@@ -40,12 +40,7 @@ public class ExhibitorCLI {
         LocalDateTime start = getDateTimeData();
         System.out.println("Input the end LocalDateTime");
         LocalDateTime end = getDateTimeData();
-        try {
-            context.getExhibitor().bookExhibitArea(context.getExpo(), start, end);
-        } catch (SQLException e) {
-            System.out.println("Something failed sry");
-            throw new RuntimeException(e);
-        }
+        context.getExhibitor().bookExhibitArea(context.getExpo(), start, end);
     }
 
     public static LocalDateTime getDateTimeData() {

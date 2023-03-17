@@ -14,11 +14,11 @@ public class ExhibitAreaDataAccess extends DataAccess {
             "WHERE exhibitAreaId=?;";
 
     private static final String selectExhibitsByExhibitAreaId = "" +
-            "SELECT exhibitId AS id, exhibitAreaId, exhibitorId, exhibitName AS name, exhibitStartDate AS startDate, exhibitEndDate AS endDate\n" +
+            "SELECT exhibitId AS id, exhibitAreaId, exhibitorId, exhibitName AS name, exhibitStartDate AS startDate, exhibitEndDate AS endDate, exhibitStartTime AS startTime, exhibitEndTime AS endTime\n" +
             "FROM exhibit\n" +
             "WHERE exhibitAreaId=?\n" +
             "UNION\n" +
-            "SELECT eventId AS id, exhibitAreaId, exhibitorId, eventName AS name, eventStartDate AS startDate, eventEndDate AS endDate\n" +
+            "SELECT eventId AS id, exhibitAreaId, exhibitorId, eventName AS name, eventStartDate AS startDate, eventEndDate AS endDate, eventStartTime AS startTime, eventEndTime AS endTime\n" +
             "FROM event\n" +
             "WHERE exhibitAreaId=?;";
 
@@ -49,8 +49,8 @@ public class ExhibitAreaDataAccess extends DataAccess {
                 Integer exhibitId = rs.getInt("id");
                 Integer exhibitorId = rs.getInt("exhibitorId");
                 String name = rs.getString("name");
-                LocalDateTime start = LocalDateTime.of(rs.getDate("exhibitStartDate").toLocalDate(), rs.getTime("exhibitStartTime").toLocalTime());
-                LocalDateTime end = LocalDateTime.of(rs.getDate("exhibitEndDate").toLocalDate(), rs.getTime("exhibitEndTime").toLocalTime());
+                LocalDateTime start = LocalDateTime.of(rs.getDate("startDate").toLocalDate(), rs.getTime("startTime").toLocalTime());
+                LocalDateTime end = LocalDateTime.of(rs.getDate("endDate").toLocalDate(), rs.getTime("endTime").toLocalTime());
                 exhibitList.add(new Exhibit(exhibitId, exhibitAreaId, exhibitorId, name, start, end));
             }
             closeConnection();

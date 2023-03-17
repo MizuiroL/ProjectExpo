@@ -14,7 +14,7 @@ public class Event extends Exhibit {
         this.eventAvailableSeats = eventAvailableSeats;
     }
 
-    public Ticket bookEvent(Visitor visitor) throws SQLException {
+    public Ticket bookEvent(Visitor visitor) {
         Ticket ticket = new Ticket(this.exhibitId, visitor.getFiscalCode());
         if(eventAvailableSeats > 0) {
             eventAvailableSeats -= 1;

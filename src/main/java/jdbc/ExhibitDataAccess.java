@@ -69,16 +69,20 @@ public class ExhibitDataAccess extends DataAccess {
         return exhibit;
     }
 
-    public void updateName(Integer exhibitId, String exhibitName) throws SQLException {
-        this.openConnection();
-        PreparedStatement statement = getConnection().prepareStatement(updateFieldById);
-        statement.setString(1, "exhibitName");
-        statement.setString(2, exhibitName);
-        statement.setInt(3, exhibitId);
+    public void updateName(Integer exhibitId, String exhibitName) {
+        try {
+            this.openConnection();
+            PreparedStatement statement = getConnection().prepareStatement(updateFieldById);
+            statement.setString(1, "exhibitName");
+            statement.setString(2, exhibitName);
+            statement.setInt(3, exhibitId);
 
-        if (statement.executeUpdate() != 1) {
-            System.out.println("Failed update");
+            if (statement.executeUpdate() != 1) {
+                System.out.println("Failed update");
+            }
+            this.closeConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        this.closeConnection();
     }
 }
