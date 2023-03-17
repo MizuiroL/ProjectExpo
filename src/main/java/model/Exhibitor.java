@@ -1,6 +1,5 @@
 package model;
 
-import jdbc.ExhibitionDataAccess;
 import jdbc.ExhibitorDataAccess;
 
 import java.sql.SQLException;
@@ -11,12 +10,12 @@ import java.util.List;
 public class Exhibitor {
     private Integer exhibitorId;
     private String exhibitorName;
-    private List<Exhibition> exhibitionList;
+    private List<Exhibit> exhibitList;
 
     public Exhibitor(Integer exhibitorId, String exhibitorName) {
         this.exhibitorId = exhibitorId;
         this.exhibitorName = exhibitorName;
-        this.exhibitionList = new ArrayList<Exhibition>();
+        this.exhibitList = new ArrayList<Exhibit>();
     }
 
     public Integer getExhibitorId() {
@@ -27,26 +26,25 @@ public class Exhibitor {
         return exhibitorName;
     }
 
-    public List<Exhibition> getExhibitionList() throws SQLException {
-        if (exhibitionList.isEmpty()) {
-            exhibitionList = new ExhibitorDataAccess().getExhibitionsByExhibitorId(this.getExhibitorId());
+    public List<Exhibit> getExhibitList() throws SQLException {
+        if (exhibitList.isEmpty()) {
+            exhibitList = new ExhibitorDataAccess().getExhibitsByExhibitorId(this.getExhibitorId());
         }
-        return exhibitionList;
+        return exhibitList;
     }
 
-    public void printExhibitions() throws SQLException {
-        for (Exhibition e : this.getExhibitionList()) {
+    public void printExhibits() throws SQLException {
+        for (Exhibit e : this.getExhibitList()) {
             System.out.println(e);
         }
     }
 
-    public Exhibition bookExhibitionArea(Expo expo, LocalDateTime start, LocalDateTime end) throws SQLException {
-        Exhibition exhibition = expo.concedeExhibitionArea(this, start, end);
-        if (exhibition != null) {
-            exhibitionList.add(exhibition);
-            exhibition = new ExhibitionDataAccess().newExhibition(exhibition);
+    public Exhibit bookExhibitArea(Expo expo, LocalDateTime start, LocalDateTime end) throws SQLException {
+        Exhibit exhibit = expo.concedeExhibitArea(this, start, end);
+        if (exhibit != null) {
+            exhibitList.add(exhibit);
         }
-        return exhibition;
+        return exhibit;
     }
 
     @Override

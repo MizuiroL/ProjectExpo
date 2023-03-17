@@ -15,7 +15,7 @@ public class ExpoManager implements Expo {
     private String streetNumber;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private List<ExhibitionArea> exhibitionAreaList;
+    private List<ExhibitArea> exhibitAreaList;
 
     public ExpoManager(Integer expoId, String province, String comune, String address, String streetNumber, LocalDateTime startDate, LocalDateTime endDate) {
         this.expoId = expoId;
@@ -33,11 +33,11 @@ public class ExpoManager implements Expo {
     }
 
     @Override
-    public Exhibition concedeExhibitionArea(Exhibitor exhibitor, LocalDateTime start, LocalDateTime end) throws SQLException {
-        List<ExhibitionArea> exhibitionAreaList = expoDataAccess.getExhibitionAreasByExpoId(this.expoId);
-        for (ExhibitionArea ea : exhibitionAreaList) {
+    public Exhibit concedeExhibitArea(Exhibitor exhibitor, LocalDateTime start, LocalDateTime end) throws SQLException {
+        List<ExhibitArea> exhibitAreaList = expoDataAccess.getExhibitAreasByExpoId(this.expoId);
+        for (ExhibitArea ea : exhibitAreaList) {
             if (!ea.isOccupied(start, end)) {
-                return ea.occupy(exhibitor, "", start, end);
+                return ea.occupy(exhibitor, exhibitor.getExhibitorName(), start, end);
             }
         }
         return null;
