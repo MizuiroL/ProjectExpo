@@ -53,3 +53,4 @@ build/
 .metadata/.plugins/org.eclipse.jdt.core/externalFilesCache
 .metadata/.plugins/org.eclipse.jdt.core/nonChainingJarsCache
 .metadata/.plugins/org.eclipse.ui.intro/introstate
+*.jar

@@ -18,7 +18,7 @@ public class VisitorDataAccess  extends DataAccess {
                 "WHERE fiscalCode=?;";
         PreparedStatement statement = getConnection().prepareStatement(query);
         statement.setString(1, fiscalCode);
-        ResultSet rs = statement.executeQuery(query);
+        ResultSet rs = statement.executeQuery();
         if (rs.next()) {
             //Integer expoId = rs.getInt("expoId");
             Integer expoId = rs.getInt("expoId");

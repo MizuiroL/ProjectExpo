@@ -16,7 +16,7 @@ public class TicketDataAccess extends DataAccess {
                 "WHERE ticketCode=?";
         PreparedStatement statement = getConnection().prepareStatement(query);
         statement.setInt(1, ticketCode);
-        ResultSet rs = statement.executeQuery(query);
+        ResultSet rs = statement.executeQuery();
         if (rs.next()) {
             Integer eventId = rs.getInt("eventId");
             String fiscalCode = rs.getString("fiscalCode");

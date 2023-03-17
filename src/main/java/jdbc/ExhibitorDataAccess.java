@@ -1,9 +1,7 @@
 package jdbc;
 
-import model.Exhibition;
+import model.Exhibit;
 import model.Exhibitor;
-import model.Expo;
-import model.ExpoManager;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -16,10 +14,10 @@ public class ExhibitorDataAccess extends DataAccess {
         this.openConnection();
         String query = "SELECT *\n" +
                 "FROM exhibitor\n" +
-                "WHERE exhibitorId=" + exhibitorId + ";";
+                "WHERE exhibitorId=?;";
         PreparedStatement statement = getConnection().prepareStatement(query);
-        //statement.setInt(1, exhibitorId);
-        ResultSet rs = statement.executeQuery(query);
+        statement.setInt(1, exhibitorId);
+        ResultSet rs = statement.executeQuery();
         if (rs.next()) {
             String exhibitorName = rs.getString("exhibitorName");
             closeConnection();
@@ -28,29 +26,30 @@ public class ExhibitorDataAccess extends DataAccess {
         closeConnection();
         return exhibitor;
     }
-    public List<Exhibition> getExhibitionsByExhibitorId(Integer exhibitorId) throws SQLException {
-        List<Exhibition> exhibitionList = new ArrayList<>();
+    public List<Exhibit> getExhibitsByExhibitorId(Integer exhibitorId) throws SQLException {
+        List<Exhibit> exhibitList = new ArrayList<>();
         this.openConnection();
-        String query = "SELECT exhibitionId AS id, exhibitionAreaId, exhibitorId, exhibitionName AS name, exhibitionStartDate AS startDate, exhibitionEndDate AS endDate\n" +
-                "FROM exhibition\n" +
-                "WHERE exhibitorId=" + exhibitorId + "\n" +
+        String query = "SELECT exhibitId AS id, exhibitAreaId, exhibitorId, exhibitName AS name, exhibitStartDate AS startDate, exhibitEndDate AS endDate\n" +
+                "FROM exhibit\n" +
+                "WHERE exhibitorId=?\n" +
                 "UNION\n" +
-                "SELECT eventId AS id, exhibitionAreaId, exhibitorId, eventName AS name, eventStartDate AS startDate, eventEndDate AS endDate\n" +
+                "SELECT eventId AS id, exhibitAreaId, exhibitorId, eventName AS name, eventStartDate AS startDate, eventEndDate AS endDate\n" +
                 "FROM event\n" +
-                "WHERE exhibitorId=" + exhibitorId + ";";
+                "WHERE exhibitorId=?\n" +
+                "ORDER BY id;";
         PreparedStatement statement = getConnection().prepareStatement(query);
-        //statement.setInt(1, exhibitionAreaId);
-        //statement.setInt(2, exhibitionAreaId);
-        ResultSet rs = statement.executeQuery(query);
+        statement.setInt(1, exhibitorId);
+        statement.setInt(2, exhibitorId);
+        ResultSet rs = statement.executeQuery();
         while (rs.next()) {
-            Integer exhibitionId = rs.getInt("id");
-            Integer exhibitionAreaId = rs.getInt("exhibitionAreaId");
+            Integer exhibitId = rs.getInt("id");
+            Integer exhibitAreaId = rs.getInt("exhibitAreaId");
             String name = rs.getString("name");
             LocalDateTime start = rs.getDate("startDate").toLocalDate().atStartOfDay();
             LocalDateTime end = rs.getDate("endDate").toLocalDate().atStartOfDay();
-            exhibitionList.add(new Exhibition(exhibitionId, exhibitionAreaId, exhibitorId, name, start, end));
+            exhibitList.add(new Exhibit(exhibitId, exhibitAreaId, exhibitorId, name, start, end));
         }
         closeConnection();
-        return exhibitionList;
+        return exhibitList;
     }
 }
