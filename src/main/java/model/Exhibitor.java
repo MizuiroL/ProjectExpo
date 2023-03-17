@@ -2,14 +2,13 @@ package model;
 
 import jdbc.ExhibitorDataAccess;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Exhibitor {
-    private Integer exhibitorId;
-    private String exhibitorName;
+    private final Integer exhibitorId;
+    private final String exhibitorName;
     private List<Exhibit> exhibitList;
 
     public Exhibitor(Integer exhibitorId, String exhibitorName) {
@@ -26,20 +25,20 @@ public class Exhibitor {
         return exhibitorName;
     }
 
-    public List<Exhibit> getExhibitList() throws SQLException {
+    public List<Exhibit> getExhibitList() {
         if (exhibitList.isEmpty()) {
             exhibitList = new ExhibitorDataAccess().getExhibitsByExhibitorId(this.getExhibitorId());
         }
         return exhibitList;
     }
 
-    public void printExhibits() throws SQLException {
+    public void printExhibits() {
         for (Exhibit e : this.getExhibitList()) {
             System.out.println(e);
         }
     }
 
-    public Exhibit bookExhibitArea(Expo expo, LocalDateTime start, LocalDateTime end) throws SQLException {
+    public Exhibit bookExhibitArea(Expo expo, LocalDateTime start, LocalDateTime end) {
         Exhibit exhibit = expo.concedeExhibitArea(this, start, end);
         if (exhibit != null) {
             exhibitList.add(exhibit);

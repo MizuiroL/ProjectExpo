@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ExpoManager implements Expo {
-    private ExpoDataAccess expoDataAccess;
+    private final ExpoDataAccess expoDataAccess;
     private Integer expoId;
     private String province;
     private String comune;

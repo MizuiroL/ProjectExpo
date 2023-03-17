@@ -12,9 +12,9 @@ import java.util.List;
     It contains a list of all of its occupancies (0..*)
  */
 public class FixedExhibitArea implements ExhibitArea {
-    private Integer exhibitAreaId;
-    private Integer expoId;
-    private ExhibitAreaDataAccess exhibitAreaDataAccess;
+    private final Integer exhibitAreaId;
+    private final Integer expoId;
+    private final ExhibitAreaDataAccess exhibitAreaDataAccess;
 
     public FixedExhibitArea(Integer exhibitAreaId, Integer expoId) {
         this.exhibitAreaId = exhibitAreaId;
@@ -34,12 +34,12 @@ public class FixedExhibitArea implements ExhibitArea {
         return exhibitAreaDataAccess;
     }
 
-    public Exhibit occupy(Exhibitor exhibitor, String exhibitName, LocalDateTime start, LocalDateTime end) throws SQLException {
+    public Exhibit occupy(Exhibitor exhibitor, String exhibitName, LocalDateTime start, LocalDateTime end) {
         Exhibit exhibit = new Exhibit(this.getExhibitAreaId(), exhibitor.getExhibitorId(), exhibitName, start, end);
         return new ExhibitDataAccess().newExhibit(exhibit);
     }
 
-    public boolean isOccupied(LocalDateTime start, LocalDateTime end) throws SQLException {
+    public boolean isOccupied(LocalDateTime start, LocalDateTime end) {
         List<Exhibit> exhibitList = exhibitAreaDataAccess.getExhibitsByExhibitAreaId(this.exhibitAreaId);
         for (Exhibit o : exhibitList) {
             Boolean startOverlap = start.isAfter(o.getExhibitStartDate()) && start.isBefore(o.getExhibitEndDate());

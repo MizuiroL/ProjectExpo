@@ -3,11 +3,11 @@ package model;
 import java.sql.SQLException;
 
 public class Visitor {
-    private String fiscalCode;
-    private Integer expoId;
-    private String name;
-    private String surname;
-    private String email;
+    private final String fiscalCode;
+    private final Integer expoId;
+    private final String name;
+    private final String surname;
+    private final String email;
 
     public Visitor(String fiscalCode, Integer expoId, String name, String surname, String email) {
         this.fiscalCode = fiscalCode;
@@ -37,7 +37,7 @@ public class Visitor {
         return email;
     }
 
-    public Ticket purchaseEventTicket(Event event) throws SQLException {
+    public Ticket purchaseEventTicket(Event event) {
         return event.bookEvent(this);
     }
 }
