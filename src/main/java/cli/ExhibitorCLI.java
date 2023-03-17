@@ -2,9 +2,7 @@ package cli;
 
 import jdbc.ExhibitorDataAccess;
 import jdbc.ExpoDataAccess;
-import model.Exhibition;
 import model.Exhibitor;
-import model.Expo;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -21,14 +19,14 @@ public class ExhibitorCLI {
         return exhibitor;
     }
 
-    public static void newExhibition() throws SQLException {
+    public static void newExhibit() throws SQLException {
         int input;
         do {
-            System.out.println("0: Back\n1: New Exhibition\n2: New Event");
+            System.out.println("0: Back\n1: New Exhibit\n2: New Event");
             input = new Scanner(System.in).nextInt();
             switch (input) {
                 case 1:
-                    bookExhibitionArea();
+                    bookExhibitArea();
                     break;
                 case 2:
                     System.out.println("WORK IN PROGRESS");
@@ -37,13 +35,13 @@ public class ExhibitorCLI {
         } while (input > 2);
     }
 
-    public static void bookExhibitionArea() {
+    public static void bookExhibitArea() {
         System.out.println("Input the start LocalDateTime");
         LocalDateTime start = getDateTimeData();
         System.out.println("Input the end LocalDateTime");
         LocalDateTime end = getDateTimeData();
         try {
-            context.getExhibitor().bookExhibitionArea(context.getExpo(), start, end);
+            context.getExhibitor().bookExhibitArea(context.getExpo(), start, end);
         } catch (SQLException e) {
             System.out.println("Something failed sry");
             throw new RuntimeException(e);
@@ -84,15 +82,15 @@ public class ExhibitorCLI {
         do {
             System.out.println("Please enter a valid input");
             System.out.println("0: Exit program");
-            System.out.println("1: View your exhibitions");
-            System.out.println("2: Create new exhibition");
+            System.out.println("1: View your exhibits");
+            System.out.println("2: Create new exhibit");
             input = new Scanner(System.in).nextInt();
             switch (input) {
                 case 1:
-                    context.getExhibitor().printExhibitions();
+                    context.getExhibitor().printExhibits();
                     break;
                 case 2:
-                    newExhibition();
+                    newExhibit();
                     break;
             }
         } while (input != 0);
