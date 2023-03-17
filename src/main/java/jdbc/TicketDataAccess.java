@@ -8,13 +8,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TicketDataAccess extends DataAccess {
+    private static final String selectTicketByCode = "SELECT *\n" +
+            "FROM ticket\n" +
+            "WHERE ticketCode=?";
     public Ticket getTicketByCode(Integer ticketCode) throws SQLException {
         Ticket ticket = null;
         this.openConnection();
-        String query = "SELECT *\n" +
-                "FROM ticket\n" +
-                "WHERE ticketCode=?";
-        PreparedStatement statement = getConnection().prepareStatement(query);
+        PreparedStatement statement = getConnection().prepareStatement(selectTicketByCode);
         statement.setInt(1, ticketCode);
         ResultSet rs = statement.executeQuery();
         if (rs.next()) {

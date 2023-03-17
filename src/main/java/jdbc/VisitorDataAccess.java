@@ -1,22 +1,20 @@
 package jdbc;
 
-import model.Expo;
-import model.ExpoManager;
 import model.Visitor;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 public class VisitorDataAccess  extends DataAccess {
+    private static final String selectVisitorByFiscalCode = "" +
+            "SELECT *\n" +
+            "FROM visitor\n" +
+            "WHERE fiscalCode=?;";
     public Visitor getVisitorByFiscalCode(String fiscalCode) throws SQLException {
         Visitor visitor = null;
         this.openConnection();
-        String query = "SELECT *\n" +
-                "FROM visitor\n" +
-                "WHERE fiscalCode=?;";
-        PreparedStatement statement = getConnection().prepareStatement(query);
+        PreparedStatement statement = getConnection().prepareStatement(selectVisitorByFiscalCode);
         statement.setString(1, fiscalCode);
         ResultSet rs = statement.executeQuery();
         if (rs.next()) {

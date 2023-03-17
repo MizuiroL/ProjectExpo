@@ -9,13 +9,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExhibitorDataAccess extends DataAccess {
+    public static final String selectExhibitorById = "" +
+            "SELECT *\n" +
+            "FROM exhibitor\n" +
+            "WHERE exhibitorId=?;";
+
+    public static final String selectExhibitsByExhibitorId = "" +
+            "SELECT exhibitId AS id, exhibitAreaId, exhibitorId, exhibitName AS name, exhibitStartDate AS startDate, exhibitEndDate AS endDate\n" +
+            "FROM exhibit\n" +
+            "WHERE exhibitorId=?\n" +
+            "UNION\n" +
+            "SELECT eventId AS id, exhibitAreaId, exhibitorId, eventName AS name, eventStartDate AS startDate, eventEndDate AS endDate\n" +
+            "FROM event\n" +
+            "WHERE exhibitorId=?\n" +
+            "ORDER BY id;";
     public Exhibitor getExhibitorById(Integer exhibitorId) throws SQLException {
         Exhibitor exhibitor = null;
         this.openConnection();
-        String query = "SELECT *\n" +
-                "FROM exhibitor\n" +
-                "WHERE exhibitorId=?;";
-        PreparedStatement statement = getConnection().prepareStatement(query);
+        PreparedStatement statement = getConnection().prepareStatement(selectExhibitorById);
         statement.setInt(1, exhibitorId);
         ResultSet rs = statement.executeQuery();
         if (rs.next()) {
@@ -37,7 +48,7 @@ public class ExhibitorDataAccess extends DataAccess {
                 "FROM event\n" +
                 "WHERE exhibitorId=?\n" +
                 "ORDER BY id;";
-        PreparedStatement statement = getConnection().prepareStatement(query);
+        PreparedStatement statement = getConnection().prepareStatement(selectExhibitsByExhibitorId);
         statement.setInt(1, exhibitorId);
         statement.setInt(2, exhibitorId);
         ResultSet rs = statement.executeQuery();

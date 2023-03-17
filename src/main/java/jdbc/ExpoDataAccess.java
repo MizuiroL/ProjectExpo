@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExpoDataAccess extends DataAccess {
+    private static final String selectExpoById = "" +
+            "SELECT *\n" +
+            "FROM expo\n" +
+            "WHERE expoId=?;";
     public Expo getExpoById(Integer expoId) throws SQLException {
         ExpoManager expoManager = null;
         this.openConnection();
 
-        String query = "SELECT *\n" +
-                "FROM expo\n" +
-                "WHERE expoId=?;";
-        PreparedStatement statement = getConnection().prepareStatement(query);
+        PreparedStatement statement = getConnection().prepareStatement(selectExpoById);
         statement.setInt(1, expoId);
         ResultSet rs = statement.executeQuery();
         if (rs.next()) {
