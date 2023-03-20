@@ -1,5 +1,8 @@
 package model;
 
+import jdbc.ExhibitDataAccess;
+
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class Exhibit {
@@ -18,6 +21,7 @@ public class Exhibit {
         this.exhibitStartDate = exhibitStartDate;
         this.exhibitEndDate = exhibitEndDate;
     }
+
     public Exhibit(Integer exhibitId, Integer exhibitAreaId, Integer exhibitorId, String exhibitName, LocalDateTime exhibitStartDate, LocalDateTime exhibitEndDate) {
         this.exhibitId = exhibitId;
         this.exhibitAreaId = exhibitAreaId;
@@ -53,6 +57,19 @@ public class Exhibit {
 
     public void setExhibitId(Integer exhibitId) {
         this.exhibitId = exhibitId;
+    }
+
+    public void setExhibitName(String exhibitName) {
+        this.exhibitName = exhibitName;
+        new ExhibitDataAccess().updateName(exhibitId, exhibitName);
+    }
+
+    public void setExhibitStartDate(LocalDateTime exhibitStartDate) {
+        this.exhibitStartDate = exhibitStartDate;
+    }
+
+    public void setExhibitEndDate(LocalDateTime exhibitEndDate) {
+        this.exhibitEndDate = exhibitEndDate;
     }
 
     @Override

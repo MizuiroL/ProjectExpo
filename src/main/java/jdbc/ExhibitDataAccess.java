@@ -20,21 +20,29 @@ public class ExhibitDataAccess extends DataAccess {
             "SET ?=?\n" +
             "WHERE exhibitId=?;";
 
-    public Exhibit getExhibitById(Integer exhibitId) throws SQLException {
+    private static final String deleteExhibitById = "" +
+            "DELETE FROM exhibit\n" +
+            "WHERE exhibitId=?;";
+
+    public Exhibit getExhibitById(Integer exhibitId) {
         Exhibit exhibit = null;
-        this.openConnection();
-        PreparedStatement statement = getConnection().prepareStatement(selectExhibitById);
-        statement.setInt(1, exhibitId);
-        ResultSet rs = statement.executeQuery();
-        if (rs.next()) {
-            Integer exhibitAreaId = rs.getInt("exhibitAreaId");
-            Integer exhibitorId = rs.getInt("exhibitorId");
-            String exhibitName = rs.getString("exhibitName");
-            LocalDateTime exhibitStartDate = LocalDateTime.of(rs.getDate("exhibitStartDate").toLocalDate(), rs.getTime("exhibitStartTime").toLocalTime());
-            LocalDateTime exhibitEndDate = LocalDateTime.of(rs.getDate("exhibitEndDate").toLocalDate(), rs.getTime("exhibitEndTime").toLocalTime());
-            exhibit = new Exhibit(exhibitId, exhibitAreaId, exhibitorId, exhibitName, exhibitStartDate, exhibitEndDate);
+        try {
+            this.openConnection();
+            PreparedStatement statement = getConnection().prepareStatement(selectExhibitById);
+            statement.setInt(1, exhibitId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                Integer exhibitAreaId = rs.getInt("exhibitAreaId");
+                Integer exhibitorId = rs.getInt("exhibitorId");
+                String exhibitName = rs.getString("exhibitName");
+                LocalDateTime exhibitStartDate = LocalDateTime.of(rs.getDate("exhibitStartDate").toLocalDate(), rs.getTime("exhibitStartTime").toLocalTime());
+                LocalDateTime exhibitEndDate = LocalDateTime.of(rs.getDate("exhibitEndDate").toLocalDate(), rs.getTime("exhibitEndTime").toLocalTime());
+                exhibit = new Exhibit(exhibitId, exhibitAreaId, exhibitorId, exhibitName, exhibitStartDate, exhibitEndDate);
+            }
+            closeConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        closeConnection();
         return exhibit;
     }
 
@@ -79,6 +87,38 @@ public class ExhibitDataAccess extends DataAccess {
 
             if (statement.executeUpdate() != 1) {
                 System.out.println("Failed update");
+            }
+            this.closeConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeExhibit(Exhibit exhibit) {
+        try {
+            this.openConnection();
+            PreparedStatement statement = getConnection().prepareStatement(deleteExhibitById);
+            statement.setInt(1, exhibit.getExhibitId());
+
+            if (statement.executeUpdate() != 0) {
+                System.out.println("Failed delete I think");
+            }
+            this.closeConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateStartDate(Integer exhibitId, LocalDateTime exhibitStartDate) {
+        try {
+            this.openConnection();
+            PreparedStatement statement = getConnection().prepareStatement(updateFieldById);
+            statement.setString(1, "exhibitStartDate");
+            statement.setString(2, exhibitStartDate.toLocalDate().toString());
+            statement.setInt(3, exhibitId);
+
+            if (statement.executeUpdate() != 1) {
+                System.out.println("Failed update I think");
             }
             this.closeConnection();
         } catch (SQLException e) {

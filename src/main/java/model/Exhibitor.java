@@ -1,5 +1,6 @@
 package model;
 
+import jdbc.ExhibitDataAccess;
 import jdbc.ExhibitorDataAccess;
 
 import java.time.LocalDateTime;
@@ -32,6 +33,15 @@ public class Exhibitor {
         return exhibitList;
     }
 
+    public Exhibit getExhibitById(Integer id) {
+        for (Exhibit e : exhibitList) {
+            if (e.getExhibitId().equals(id)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
     public void printExhibits() {
         for (Exhibit e : this.getExhibitList()) {
             System.out.println(e);
@@ -48,9 +58,26 @@ public class Exhibitor {
 
     @Override
     public String toString() {
-        return "Exhibitor{" +
-                "exhibitorId=" + exhibitorId +
-                ", exhibitorName='" + exhibitorName + '\'' +
-                '}';
+        return "Exhibitor{" + "exhibitorId=" + exhibitorId + ", exhibitorName='" + exhibitorName + '\'' + '}';
+    }
+
+    public void removeExhibition(Exhibit exhibit) {
+        boolean correctExhibitor = exhibit.getExhibitorId().equals(this.exhibitorId);
+        boolean beforeExhibitDate = LocalDateTime.now().isBefore(exhibit.exhibitStartDate);
+        if (correctExhibitor && beforeExhibitDate) {
+            exhibitList.remove(exhibit);
+            new ExhibitDataAccess().removeExhibit(exhibit);
+        } else {
+            System.out.println("Failed delete:");
+            System.out.println(!correctExhibitor ? "Unauthorized delete" : "Cannot delete an exhibit after its start date");
+        }
+    }
+
+    public Exhibit setExhibitStartDate(Exhibit exhibit, LocalDateTime exhibitStartDate) {
+        //exhibitList.replaceAll(e -> e.getExhibitId().equals(exhibit.getExhibitId()) ? exhibit : e);
+        exhibit = getExhibitById(exhibit.getExhibitId());
+        exhibit.setExhibitStartDate(exhibitStartDate);
+        new ExhibitDataAccess().updateStartDate(exhibit.getExhibitId(), exhibitStartDate);
+        return exhibit;
     }
 }

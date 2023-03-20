@@ -1,7 +1,9 @@
 package cli;
 
+import jdbc.ExhibitDataAccess;
 import jdbc.ExhibitorDataAccess;
 import jdbc.ExpoDataAccess;
+import model.Exhibit;
 import model.Exhibitor;
 
 import java.sql.SQLException;
@@ -63,6 +65,31 @@ public class ExhibitorCLI {
         return LocalDateTime.of(year, month, day, hour, minute);
     }
 
+    private static void modifyExhibit() {
+        System.out.println("Please input the exhibitId to access it");
+        Scanner in = new Scanner(System.in);
+        int id = in.nextInt();
+        Exhibit exhibit = new ExhibitDataAccess().getExhibitById(id);
+        System.out.println(exhibit.toString());
+        System.out.println("What do you want to change?");
+        System.out.println("0: Go back");
+        System.out.println("1: Change starting date");
+        System.out.println("2: Change ending date");
+        System.out.println("3: Delete exhibit");
+        int option = in.nextInt();
+        switch (option) {
+            case 1:
+                context.getExhibitor().setExhibitStartDate(exhibit, getDateTimeData());
+                //exhibit.setExhibitStartDate(getDateTimeData());
+                break;
+            case 2:
+                exhibit.setExhibitEndDate(getDateTimeData());
+            case 3:
+                context.getExhibitor().removeExhibition(exhibit);
+                break;
+        }
+    }
+
     public static void main(String[] args) throws SQLException {
         context = new ExhibitorContext();
         context.setExpo(new ExpoDataAccess().getExpoById(1));
@@ -79,6 +106,7 @@ public class ExhibitorCLI {
             System.out.println("0: Exit program");
             System.out.println("1: View your exhibits");
             System.out.println("2: Create new exhibit");
+            System.out.println("3: Modify existing exhibit");
             input = new Scanner(System.in).nextInt();
             switch (input) {
                 case 1:
@@ -86,6 +114,9 @@ public class ExhibitorCLI {
                     break;
                 case 2:
                     newExhibit();
+                    break;
+                case 3:
+                    modifyExhibit();
                     break;
             }
         } while (input != 0);
