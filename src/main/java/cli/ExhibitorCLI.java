@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class ExhibitorCLI {
     private static ExhibitorContext context = null;
 
-    public static Exhibitor signIn(Integer exhibitorId, String username, String password) throws SQLException {
+    public static Exhibitor signIn(Integer exhibitorId, String username, String password) {
         Exhibitor exhibitor = new ExhibitorDataAccess().getExhibitorById(exhibitorId);
         if (exhibitor == null) {
             System.out.println("User not found.\nSign in failed.");
@@ -90,7 +90,7 @@ public class ExhibitorCLI {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         context = new ExhibitorContext();
         context.setExpo(new ExpoDataAccess().getExpoById(1));
         System.out.println("LOGIN\nPlease input the correct data to access");
