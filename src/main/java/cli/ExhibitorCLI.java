@@ -1,8 +1,8 @@
 package cli;
 
-import jdbc.ExhibitDataAccess;
-import jdbc.ExhibitorDataAccess;
-import jdbc.ExpoDataAccess;
+import jdbc.ExhibitDAO;
+import jdbc.ExhibitorDAO;
+import jdbc.ExpoDAO;
 import model.Exhibit;
 import model.Exhibitor;
 
@@ -14,7 +14,7 @@ public class ExhibitorCLI {
     private static ExhibitorContext context = null;
 
     public static Exhibitor signIn(Integer exhibitorId, String username, String password) {
-        Exhibitor exhibitor = new ExhibitorDataAccess().getExhibitorById(exhibitorId);
+        Exhibitor exhibitor = new ExhibitorDAO().getExhibitorById(exhibitorId);
         if (exhibitor == null) {
             System.out.println("User not found.\nSign in failed.");
         }
@@ -69,7 +69,7 @@ public class ExhibitorCLI {
         System.out.println("Please input the exhibitId to access it");
         Scanner in = new Scanner(System.in);
         int id = in.nextInt();
-        Exhibit exhibit = new ExhibitDataAccess().getExhibitById(id);
+        Exhibit exhibit = new ExhibitDAO().getExhibitById(id);
         System.out.println(exhibit.toString());
         System.out.println("What do you want to change?");
         System.out.println("0: Go back");
@@ -92,7 +92,7 @@ public class ExhibitorCLI {
 
     public static void main(String[] args) {
         context = new ExhibitorContext();
-        context.setExpo(new ExpoDataAccess().getExpoById(1));
+        context.setExpo(new ExpoDAO().getExpoById(1));
         System.out.println("LOGIN\nPlease input the correct data to access");
         do {
             context.setExhibitor(signIn(1, "", ""));
