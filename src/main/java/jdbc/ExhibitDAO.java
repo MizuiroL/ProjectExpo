@@ -5,7 +5,7 @@ import model.Exhibit;
 import java.sql.*;
 import java.time.LocalDateTime;
 
-public class ExhibitDataAccess extends DataAccess {
+public class ExhibitDAO {
     private static final String selectExhibitById = "" +
             "SELECT *\n" +
             "FROM exhibit\n" +
@@ -27,8 +27,8 @@ public class ExhibitDataAccess extends DataAccess {
     public Exhibit getExhibitById(Integer exhibitId) {
         Exhibit exhibit = null;
         try {
-            this.openConnection();
-            PreparedStatement statement = getConnection().prepareStatement(selectExhibitById);
+        	Connection connection = DB.getConnection();
+            PreparedStatement statement = connection.prepareStatement(selectExhibitById);
             statement.setInt(1, exhibitId);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
@@ -39,7 +39,7 @@ public class ExhibitDataAccess extends DataAccess {
                 LocalDateTime exhibitEndDate = LocalDateTime.of(rs.getDate("exhibitEndDate").toLocalDate(), rs.getTime("exhibitEndTime").toLocalTime());
                 exhibit = new Exhibit(exhibitId, exhibitAreaId, exhibitorId, exhibitName, exhibitStartDate, exhibitEndDate);
             }
-            closeConnection();
+            DB.closeConnection(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -48,12 +48,9 @@ public class ExhibitDataAccess extends DataAccess {
 
     public Exhibit newExhibit(Exhibit exhibit) {
         try {
-            this.openConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        ResultSet generatedKeys;
-        try (PreparedStatement statement = getConnection().prepareStatement(insertIntoExhibit, Statement.RETURN_GENERATED_KEYS)) {
+        	Connection connection = DB.getConnection();
+        	PreparedStatement statement = connection.prepareStatement(insertIntoExhibit, Statement.RETURN_GENERATED_KEYS);
+        	ResultSet generatedKeys;
             statement.setInt(1, exhibit.getExhibitAreaId());
             statement.setInt(2, exhibit.getExhibitorId());
             statement.setString(3, exhibit.getExhibitName());
@@ -70,7 +67,7 @@ public class ExhibitDataAccess extends DataAccess {
             if (generatedKeys.next()) {
                 exhibit.setExhibitId(generatedKeys.getInt(1));
             }
-            this.closeConnection();
+            DB.closeConnection(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -79,8 +76,8 @@ public class ExhibitDataAccess extends DataAccess {
 
     public void updateName(Integer exhibitId, String exhibitName) {
         try {
-            this.openConnection();
-            PreparedStatement statement = getConnection().prepareStatement(updateFieldById);
+        	Connection connection = DB.getConnection();
+            PreparedStatement statement = connection.prepareStatement(updateFieldById);
             statement.setString(1, "exhibitName");
             statement.setString(2, exhibitName);
             statement.setInt(3, exhibitId);
@@ -88,7 +85,7 @@ public class ExhibitDataAccess extends DataAccess {
             if (statement.executeUpdate() != 1) {
                 System.out.println("Failed update");
             }
-            this.closeConnection();
+            DB.closeConnection(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -96,14 +93,14 @@ public class ExhibitDataAccess extends DataAccess {
 
     public void removeExhibit(Exhibit exhibit) {
         try {
-            this.openConnection();
-            PreparedStatement statement = getConnection().prepareStatement(deleteExhibitById);
+        	Connection connection = DB.getConnection();
+            PreparedStatement statement = connection.prepareStatement(deleteExhibitById);
             statement.setInt(1, exhibit.getExhibitId());
 
             if (statement.executeUpdate() != 0) {
                 System.out.println("Failed delete I think");
             }
-            this.closeConnection();
+            DB.closeConnection(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -111,8 +108,8 @@ public class ExhibitDataAccess extends DataAccess {
 
     public void updateStartDate(Integer exhibitId, LocalDateTime exhibitStartDate) {
         try {
-            this.openConnection();
-            PreparedStatement statement = getConnection().prepareStatement(updateFieldById);
+        	Connection connection = DB.getConnection();
+            PreparedStatement statement = connection.prepareStatement(updateFieldById);
             statement.setString(1, "exhibitStartDate");
             statement.setString(2, exhibitStartDate.toLocalDate().toString());
             statement.setInt(3, exhibitId);
@@ -120,7 +117,7 @@ public class ExhibitDataAccess extends DataAccess {
             if (statement.executeUpdate() != 1) {
                 System.out.println("Failed update I think");
             }
-            this.closeConnection();
+            DB.closeConnection(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

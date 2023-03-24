@@ -1,7 +1,7 @@
 package model;
 
-import jdbc.ExhibitAreaDataAccess;
-import jdbc.ExhibitDataAccess;
+import jdbc.ExhibitAreaDAO;
+import jdbc.ExhibitDAO;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -14,12 +14,12 @@ import java.util.List;
 public class FixedExhibitArea implements ExhibitArea {
     private final Integer exhibitAreaId;
     private final Integer expoId;
-    private final ExhibitAreaDataAccess exhibitAreaDataAccess;
+    private final ExhibitAreaDAO exhibitAreaDataAccess;
 
     public FixedExhibitArea(Integer exhibitAreaId, Integer expoId) {
         this.exhibitAreaId = exhibitAreaId;
         this.expoId = expoId;
-        exhibitAreaDataAccess = new ExhibitAreaDataAccess();
+        exhibitAreaDataAccess = new ExhibitAreaDAO();
     }
 
     public Integer getExhibitAreaId() {
@@ -30,13 +30,13 @@ public class FixedExhibitArea implements ExhibitArea {
         return expoId;
     }
 
-    public ExhibitAreaDataAccess getExhibitAreaDataAccess() {
+    public ExhibitAreaDAO getExhibitAreaDataAccess() {
         return exhibitAreaDataAccess;
     }
 
     public Exhibit occupy(Exhibitor exhibitor, String exhibitName, LocalDateTime start, LocalDateTime end) {
         Exhibit exhibit = new Exhibit(this.getExhibitAreaId(), exhibitor.getExhibitorId(), exhibitName, start, end);
-        return new ExhibitDataAccess().newExhibit(exhibit);
+        return new ExhibitDAO().newExhibit(exhibit);
     }
 
     public boolean isOccupied(LocalDateTime start, LocalDateTime end) {

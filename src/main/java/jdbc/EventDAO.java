@@ -5,7 +5,7 @@ import model.Event;
 import java.sql.*;
 import java.time.LocalDateTime;
 
-public class EventDataAccess extends DataAccess {
+public class EventDAO {
     private static final String selectEventById = "SELECT *\n" +
             "FROM event\n" +
             "WHERE eventId=?;";
@@ -13,9 +13,9 @@ public class EventDataAccess extends DataAccess {
     public Event getEventById(Integer eventId) {
         Event event = null;
         try {
-            this.openConnection();
+            Connection connection = DB.getConnection();
 
-            PreparedStatement statement = getConnection().prepareStatement(selectEventById);
+            PreparedStatement statement = connection.prepareStatement(selectEventById);
             statement.setInt(1, eventId);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
@@ -28,7 +28,7 @@ public class EventDataAccess extends DataAccess {
                 Integer eventAvailableSeats = rs.getInt("exhibitorId");
                 event = new Event(eventId, exhibitAreaId, exhibitorId, eventName, eventStartDate, eventEndDate, eventTotalSeats, eventAvailableSeats);
             }
-            closeConnection();
+            DB.closeConnection(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

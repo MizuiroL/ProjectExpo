@@ -1,6 +1,6 @@
 package model;
 
-import jdbc.TicketDataAccess;
+import jdbc.TicketDAO;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -19,7 +19,7 @@ public class Event extends Exhibit {
         Ticket ticket = new Ticket(this.exhibitId, visitor.getFiscalCode());
         if (eventAvailableSeats > 0) {
             eventAvailableSeats -= 1;
-            ticket = new TicketDataAccess().newTicket(ticket);
+            ticket = new TicketDAO().newTicket(ticket);
         }
         return ticket;
     }

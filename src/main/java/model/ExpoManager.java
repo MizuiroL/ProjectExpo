@@ -1,6 +1,6 @@
 package model;
 
-import jdbc.ExpoDataAccess;
+import jdbc.ExpoDAO;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ExpoManager implements Expo {
-    private final ExpoDataAccess expoDataAccess;
+    private final ExpoDAO expoDataAccess;
     private Integer expoId;
     private String province;
     private String comune;
@@ -26,11 +26,11 @@ public class ExpoManager implements Expo {
         this.streetNumber = streetNumber;
         this.startDate = startDate;
         this.endDate = endDate;
-        expoDataAccess = new ExpoDataAccess();
+        expoDataAccess = new ExpoDAO();
     }
 
     public ExpoManager() {
-        expoDataAccess = new ExpoDataAccess();
+        expoDataAccess = new ExpoDAO();
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExhibitAreaDataAccess extends DataAccess {
+public class ExhibitAreaDAO {
     private static final String selectExhibitAreaById = "" +
             "SELECT *\n" +
             "FROM exhibitArea\n" +
@@ -24,8 +24,8 @@ public class ExhibitAreaDataAccess extends DataAccess {
 
     public ExhibitArea getExhibitAreaById(Integer exhibitAreaId) throws SQLException {
         ExhibitArea exhibitArea = null;
-        this.openConnection();
-        PreparedStatement statement = getConnection().prepareStatement(selectExhibitAreaById);
+        Connection connection = DB.getConnection();
+        PreparedStatement statement = connection.prepareStatement(selectExhibitAreaById);
         statement.setInt(1, exhibitAreaId);
         ResultSet rs = statement.executeQuery();
         if (rs.next()) {
@@ -33,15 +33,15 @@ public class ExhibitAreaDataAccess extends DataAccess {
             Integer expoId = rs.getInt("expoId");
             exhibitArea = new FixedExhibitArea(exhibitAreaId, expoId);
         }
-        closeConnection();
+        DB.closeConnection(connection);
         return exhibitArea;
     }
 
     public List<Exhibit> getExhibitsByExhibitAreaId(Integer exhibitAreaId) {
         List<Exhibit> exhibitList = new ArrayList<>();
         try {
-            this.openConnection();
-            PreparedStatement statement = getConnection().prepareStatement(selectExhibitsByExhibitAreaId);
+        	Connection connection = DB.getConnection();
+            PreparedStatement statement = connection.prepareStatement(selectExhibitsByExhibitAreaId);
             statement.setInt(1, exhibitAreaId);
             statement.setInt(2, exhibitAreaId);
             ResultSet rs = statement.executeQuery();
@@ -53,7 +53,7 @@ public class ExhibitAreaDataAccess extends DataAccess {
                 LocalDateTime end = LocalDateTime.of(rs.getDate("endDate").toLocalDate(), rs.getTime("endTime").toLocalTime());
                 exhibitList.add(new Exhibit(exhibitId, exhibitAreaId, exhibitorId, name, start, end));
             }
-            closeConnection();
+            DB.closeConnection(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

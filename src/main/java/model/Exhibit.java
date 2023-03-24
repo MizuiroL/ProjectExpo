@@ -1,6 +1,6 @@
 package model;
 
-import jdbc.ExhibitDataAccess;
+import jdbc.ExhibitDAO;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -61,7 +61,7 @@ public class Exhibit {
 
     public void setExhibitName(String exhibitName) {
         this.exhibitName = exhibitName;
-        new ExhibitDataAccess().updateName(exhibitId, exhibitName);
+        new ExhibitDAO().updateName(exhibitId, exhibitName);
     }
 
     public void setExhibitStartDate(LocalDateTime exhibitStartDate) {

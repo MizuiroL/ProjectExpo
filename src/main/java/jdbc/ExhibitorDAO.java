@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExhibitorDataAccess extends DataAccess {
+public class ExhibitorDAO {
     public static final String selectExhibitorById = "" +
             "SELECT *\n" +
             "FROM exhibitor\n" +
@@ -26,15 +26,15 @@ public class ExhibitorDataAccess extends DataAccess {
     public Exhibitor getExhibitorById(Integer exhibitorId) {
         Exhibitor exhibitor = null;
         try {
-            this.openConnection();
-            PreparedStatement statement = getConnection().prepareStatement(selectExhibitorById);
+            Connection connection = DB.getConnection();
+            PreparedStatement statement = connection.prepareStatement(selectExhibitorById);
             statement.setInt(1, exhibitorId);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 String exhibitorName = rs.getString("exhibitorName");
                 exhibitor = new Exhibitor(exhibitorId, exhibitorName);
             }
-            this.closeConnection();
+            DB.closeConnection(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -43,9 +43,9 @@ public class ExhibitorDataAccess extends DataAccess {
     public List<Exhibit> getExhibitsByExhibitorId(Integer exhibitorId) {
         List<Exhibit> exhibitList = new ArrayList<>();
         try {
-            this.openConnection();
+            Connection connection = DB.getConnection();
 
-            PreparedStatement statement = getConnection().prepareStatement(selectExhibitsByExhibitorId);
+            PreparedStatement statement = connection.prepareStatement(selectExhibitsByExhibitorId);
             statement.setInt(1, exhibitorId);
             statement.setInt(2, exhibitorId);
             ResultSet rs = statement.executeQuery();
@@ -57,7 +57,7 @@ public class ExhibitorDataAccess extends DataAccess {
                 LocalDateTime end = LocalDateTime.of(rs.getDate("endDate").toLocalDate(), rs.getTime("endTime").toLocalTime());
                 exhibitList.add(new Exhibit(exhibitId, exhibitAreaId, exhibitorId, name, start, end));
             }
-            closeConnection();
+            DB.closeConnection(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
