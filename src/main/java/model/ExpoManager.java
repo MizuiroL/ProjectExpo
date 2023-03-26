@@ -32,8 +32,46 @@ public class ExpoManager implements Expo {
     public ExpoManager() {
         expoDataAccess = new ExpoDAO();
     }
+    
+    
 
-    @Override
+    public ExpoDAO getExpoDataAccess() {
+		return expoDataAccess;
+	}
+
+	public Integer getExpoId() {
+		return expoId;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public String getComune() {
+		return comune;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public String getStreetNumber() {
+		return streetNumber;
+	}
+
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public List<ExhibitArea> getExhibitAreaList() {
+		return exhibitAreaList;
+	}
+
+	@Override
     public Exhibit concedeExhibitArea(Exhibitor exhibitor, LocalDateTime start, LocalDateTime end) {
         List<ExhibitArea> exhibitAreaList = expoDataAccess.getExhibitAreasByExpoId(this.expoId);
         for (ExhibitArea ea : exhibitAreaList) {
