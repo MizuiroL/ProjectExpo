@@ -1,12 +1,11 @@
 package cli;
 
 import jdbc.VisitorDAO;
-import jdbc.ExhibitDAO;
 import jdbc.ExpoDAO;
 import model.Visitor;
+import model.Event;
 import model.Exhibit;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,14 +19,21 @@ public class VisitorCLI {
         return visitor;
     }
     private static void viewCurrentExhibits() {
-    	List<Exhibit> exhibitList = new ExpoDAO().getStartedExhibits(context.getExpo().getExpoId());
+    	Integer id = context.getExpo().getExpoId();
+    	ExpoDAO dao = new ExpoDAO();
+    	List<Exhibit> exhibitList = dao.getStartedExhibits(id);
     	for (Exhibit e : exhibitList) {
     		System.out.println(e.toString());
     	}
     }
     
     private static void viewCurrentEvents() {
-    	
+    	Integer id = context.getExpo().getExpoId();
+    	ExpoDAO dao = new ExpoDAO();
+    	List<Event> eventList = dao.getFutureEvents(id);
+    	for (Event e : eventList) {
+    		System.out.println(e.toString());
+    	}
     }
     public static void main(String[] args) {
         context = new VisitorContext();

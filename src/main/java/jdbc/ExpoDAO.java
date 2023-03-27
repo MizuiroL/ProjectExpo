@@ -26,6 +26,14 @@ public class ExpoDAO {
     		+ "JOIN expo USING (expoId)\n"
     		+ "WHERE expoId=?\n"
     		+ "AND CURDATE() BETWEEN exhibitStartDate AND exhibitEndDate;";
+    
+    private static final String selectFutureEvents = ""
+    		+ "SELECT eventId, exhibitAreaId, exhibitorId, eventName, eventStartDate, eventStartTime, eventEndDate, eventEndTime, eventTotalSeats, eventAvailableSeats\n"
+    		+ "FROM event\n"
+    		+ "JOIN exhibitArea USING (exhibitAreaId)\n"
+    		+ "JOIN expo USING (expoId)\n"
+    		+ "WHERE expoId=?\n"
+    		+ "AND eventStartDate AFTER CURDATE();";
 
     public Expo getExpoById(Integer expoId) {
         ExpoManager expoManager = null;
@@ -78,7 +86,7 @@ public class ExpoDAO {
     		ResultSet rs = statement.executeQuery();
     		while (rs.next()) {
     			Integer exhibitId = rs.getInt("exhibitId");
-    			Integer exhibitAreaId = rs.getInt("exhibitId");
+    			Integer exhibitAreaId = rs.getInt("exhibitAreaId");
     			Integer exhibitorId = rs.getInt("exhibitorId");
     			String exhibitName = rs.getString("exhibitName");
     			LocalDateTime exhibitStartDate = LocalDateTime.of(rs.getDate("exhibitStartDate").toLocalDate(), rs.getTime("exhibitStartTime").toLocalTime());
@@ -91,5 +99,30 @@ public class ExpoDAO {
         }
     	return exhibitList;
     }
+
+	public List<Event> getFutureEvents(Integer expoId) {
+		List<Event> eventList = new ArrayList<>();
+    	try {
+    		Connection connection = DB.getConnection();
+    		PreparedStatement statement = connection.prepareStatement(selectFutureEvents);
+    		statement.setInt(1, expoId);
+    		ResultSet rs = statement.executeQuery();
+    		while (rs.next()) {
+    			Integer eventId = rs.getInt("eventId");
+    			Integer exhibitAreaId = rs.getInt("exhibitId");
+    			Integer exhibitorId = rs.getInt("exhibitorId");
+    			String eventName = rs.getString("eventName");
+    			LocalDateTime eventStartDate = LocalDateTime.of(rs.getDate("eventStartDate").toLocalDate(), rs.getTime("eventStartTime").toLocalTime());
+                LocalDateTime eventEndDate = LocalDateTime.of(rs.getDate("eventEndDate").toLocalDate(), rs.getTime("eventEndTime").toLocalTime());
+                Integer eventTotalSeats = rs.getInt("eventTotalSeats");
+                Integer eventAvailableSeats = rs.getInt("eventAvailableSeats");
+                Event event = new Event(eventId, exhibitAreaId, exhibitorId, eventName, eventStartDate, eventEndDate, eventTotalSeats, eventAvailableSeats);
+                eventList.add(event);
+    		}
+    	} catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    	return eventList;
+	}
 
 }
