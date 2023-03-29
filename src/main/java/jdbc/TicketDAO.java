@@ -6,14 +6,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class TicketDAO {
-	private static final String selectTicketByCode = "" +
-			"SELECT *\n" + "FROM ticket\n" +
-			"WHERE ticketCode=?";
+	private static final String selectTicketByCode = "" + "SELECT *\n" + "FROM ticket\n" + "WHERE ticketCode=?";
 
-	private static final String insertTicket = "" +
-	"INSERT INTO ticket(eventId, fiscalCode)\n" + "VALUES (?,?);";
+	private static final String insertTicket = "" + "INSERT INTO ticket(eventId, fiscalCode)\n" + "VALUES (?,?);";
 
 	public Ticket getTicketByCode(Integer ticketCode) {
 		Ticket ticket = null;
@@ -38,16 +36,17 @@ public class TicketDAO {
 		try {
 			Connection connection = DB.getConnection();
 			ResultSet generatedKeys;
-			try (PreparedStatement statement = connection.prepareStatement(insertTicket)) {
-				statement.setInt(1, ticket.getEventId());
-				statement.setString(2, ticket.getFiscalCode());
+			PreparedStatement statement = connection.prepareStatement(insertTicket, Statement.RETURN_GENERATED_KEYS);
+			statement.setInt(1, ticket.getEventId());
+			statement.setString(2, ticket.getFiscalCode());
 
-				if (statement.executeUpdate() == 0) {
-					throw new SQLException("Creating user failed, no rows affected.");
-				}
-
-				generatedKeys = statement.getGeneratedKeys();
+			if (statement.executeUpdate() == 0) {
+				throw new SQLException("Ticket purchase failed");
 			}
+			generatedKeys = statement.getGeneratedKeys();
+			//generatedKeys.last();
+			//System.out.println("THIS ONE HOW MANY GENERATEDKEYS? " + generatedKeys.getRow());
+
 			if (generatedKeys.next()) {
 				ticket.setTicketCode(generatedKeys.getInt(1));
 			}
