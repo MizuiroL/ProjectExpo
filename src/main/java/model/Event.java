@@ -2,7 +2,6 @@ package model;
 
 import jdbc.TicketDAO;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class Event extends Exhibit {

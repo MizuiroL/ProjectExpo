@@ -2,7 +2,6 @@ package model;
 
 import jdbc.ExhibitDAO;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class Exhibit {

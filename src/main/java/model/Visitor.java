@@ -1,7 +1,5 @@
 package model;
 
-import java.sql.SQLException;
-
 public class Visitor {
     private final String fiscalCode;
     private final Integer expoId;

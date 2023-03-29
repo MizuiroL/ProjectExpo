@@ -6,7 +6,6 @@ import jdbc.ExpoDAO;
 import model.Exhibit;
 import model.Exhibitor;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
@@ -22,9 +21,11 @@ public class ExhibitorCLI {
     }
 
     public static void newExhibit() {
+    	// TODO find a better naming for this
         int input;
         do {
             System.out.println("0: Back\n1: New Exhibit\n2: New Event");
+            // TODO assign Scanner to dedicated variable
             input = new Scanner(System.in).nextInt();
             switch (input) {
                 case 1:
@@ -62,6 +63,7 @@ public class ExhibitorCLI {
         hour = in.nextInt();
         System.out.println("Minute");
         minute = in.nextInt();
+        in.close();
         return LocalDateTime.of(year, month, day, hour, minute);
     }
 
@@ -85,9 +87,10 @@ public class ExhibitorCLI {
             case 2:
                 exhibit.setExhibitEndDate(getDateTimeData());
             case 3:
-                context.getExhibitor().removeExhibition(exhibit);
+                context.getExhibitor().removeExhibit(exhibit);
                 break;
         }
+        in.close();
     }
 
     public static void main(String[] args) {

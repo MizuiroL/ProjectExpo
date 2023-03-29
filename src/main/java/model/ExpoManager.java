@@ -2,7 +2,6 @@ package model;
 
 import jdbc.ExpoDAO;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -72,7 +71,7 @@ public class ExpoManager implements Expo {
 	}
 
 	@Override
-    public Exhibit concedeExhibitArea(Exhibitor exhibitor, LocalDateTime start, LocalDateTime end) {
+    public Exhibit assignExhibitArea(Exhibitor exhibitor, LocalDateTime start, LocalDateTime end) {
         List<ExhibitArea> exhibitAreaList = expoDataAccess.getExhibitAreasByExpoId(this.expoId);
         for (ExhibitArea ea : exhibitAreaList) {
             if (!ea.isOccupied(start, end)) {

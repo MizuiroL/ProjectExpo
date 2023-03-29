@@ -49,7 +49,7 @@ public class Exhibitor {
     }
 
     public Exhibit bookExhibitArea(Expo expo, LocalDateTime start, LocalDateTime end) {
-        Exhibit exhibit = expo.concedeExhibitArea(this, start, end);
+        Exhibit exhibit = expo.assignExhibitArea(this, start, end);
         if (exhibit != null) {
             exhibitList.add(exhibit);
         }
@@ -61,7 +61,7 @@ public class Exhibitor {
         return "Exhibitor{" + "exhibitorId=" + exhibitorId + ", exhibitorName='" + exhibitorName + '\'' + '}';
     }
 
-    public void removeExhibition(Exhibit exhibit) {
+    public void removeExhibit(Exhibit exhibit) {
         boolean correctExhibitor = exhibit.getExhibitorId().equals(this.exhibitorId);
         boolean beforeExhibitDate = LocalDateTime.now().isBefore(exhibit.exhibitStartDate);
         if (correctExhibitor && beforeExhibitDate) {

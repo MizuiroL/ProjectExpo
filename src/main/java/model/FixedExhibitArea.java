@@ -3,7 +3,6 @@ package model;
 import jdbc.ExhibitAreaDAO;
 import jdbc.ExhibitDAO;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class FixedExhibitArea implements ExhibitArea {
     public ExhibitAreaDAO getExhibitAreaDataAccess() {
         return exhibitAreaDataAccess;
     }
-
+    // TODO reduce number of arguments
     public Exhibit occupy(Exhibitor exhibitor, String exhibitName, LocalDateTime start, LocalDateTime end) {
         Exhibit exhibit = new Exhibit(this.getExhibitAreaId(), exhibitor.getExhibitorId(), exhibitName, start, end);
         return new ExhibitDAO().newExhibit(exhibit);
