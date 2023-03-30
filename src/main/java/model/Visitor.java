@@ -1,6 +1,6 @@
 package model;
 
-public class Visitor {
+public class Visitor implements EventObserver {
     private final String fiscalCode;
     private final Integer expoId;
     private final String name;
@@ -38,4 +38,10 @@ public class Visitor {
     public Ticket purchaseEventTicket(Event event) {
         return event.bookEvent(this);
     }
+
+	@Override
+	public void update(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

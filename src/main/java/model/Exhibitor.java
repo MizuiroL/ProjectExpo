@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Exhibitor {
+public class Exhibitor implements EventObserver {
     private final Integer exhibitorId;
     private final String exhibitorName;
     private List<Exhibit> exhibitList;
@@ -80,4 +80,14 @@ public class Exhibitor {
         new ExhibitDAO().updateStartDate(exhibit.getExhibitId(), exhibitStartDate);
         return exhibit;
     }
+
+	@Override
+	public void update(Event e) {
+		ExhibitorDAO dao = new ExhibitorDAO();
+		// Event sold out
+		if(e.getEventAvailableSeats() == 0) {
+			dao.newNotification(this.getExhibitorId(), "Event Sold Out: " + e.toString());
+		}
+		
+	}
 }

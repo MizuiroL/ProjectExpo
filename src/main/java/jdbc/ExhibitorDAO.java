@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import cli.ExhibitorNotification;
+
 public class ExhibitorDAO {
     public static final String selectExhibitorById = "" +
             "SELECT *\n" +
@@ -23,6 +25,16 @@ public class ExhibitorDAO {
             "FROM event\n" +
             "WHERE exhibitorId=?\n" +
             "ORDER BY id;";
+    
+    public static final String createNotification = ""
+    		+ "INSERT INTO exhibitorNotification(exhibitorId, message) VALUES\n"
+    		+ "(?, ?);";
+    
+    public static final String selectNotificationsByExhibitorId = ""
+    		+ "SELECT notificationId, exhibitorId, message\n"
+    		+ "FROM exhibitorNotification\n"
+    		+ "WHERE exhibitorId=?;";
+    
     public Exhibitor getExhibitorById(Integer exhibitorId) {
         Exhibitor exhibitor = null;
         try {
@@ -63,4 +75,39 @@ public class ExhibitorDAO {
         }
         return exhibitList;
     }
+    
+	public void newNotification(Integer exhibitorId, String message) {
+		try {
+            Connection connection = DB.getConnection();
+            PreparedStatement statement = connection.prepareStatement(createNotification);
+            statement.setInt(1, exhibitorId);
+            statement.setString(2, message);
+            int n = statement.executeUpdate();
+            if (n == 0) {
+            	System.out.println("Failed notification insert in database");
+            }
+            DB.closeConnection(connection);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+	}
+	public List<ExhibitorNotification> selectAllNotifications(Integer exhibitorId) {
+		List<ExhibitorNotification> notificationList = new ArrayList<>();
+	        try {
+	            Connection connection = DB.getConnection();
+
+	            PreparedStatement statement = connection.prepareStatement(selectNotificationsByExhibitorId);
+	            statement.setInt(1, exhibitorId);
+	            ResultSet rs = statement.executeQuery();
+	            while (rs.next()) {
+	                Integer notificationId = rs.getInt("notificationId");
+	                String message = rs.getString("message");
+	                notificationList.add(new ExhibitorNotification(notificationId, exhibitorId, message));
+	            }
+	            DB.closeConnection(connection);
+	        } catch (SQLException e) {
+	            throw new RuntimeException(e);
+	        }
+		return notificationList;
+	}
 }
