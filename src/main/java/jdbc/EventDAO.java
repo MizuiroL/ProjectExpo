@@ -6,7 +6,8 @@ import java.sql.*;
 import java.time.LocalDateTime;
 
 public class EventDAO {
-    private static final String selectEventById = "SELECT *\n" +
+    private static final String selectEventById = "" +
+    		"SELECT *\n" +
             "FROM event\n" +
             "WHERE eventId=?;";
 

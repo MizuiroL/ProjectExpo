@@ -9,9 +9,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class TicketDAO {
-	private static final String selectTicketByCode = "" + "SELECT *\n" + "FROM ticket\n" + "WHERE ticketCode=?";
+	private static final String selectTicketByCode = ""
+			+ "SELECT *\n"
+			+ "FROM ticket\n"
+			+ "WHERE ticketCode=?";
 
-	private static final String insertTicket = "" + "INSERT INTO ticket(eventId, fiscalCode)\n" + "VALUES (?,?);";
+	private static final String insertTicket = ""
+			+ "INSERT INTO ticket(eventId, fiscalCode)\n"
+			+ "VALUES (?,?);";
 
 	public Ticket getTicketByCode(Integer ticketCode) {
 		Ticket ticket = null;
