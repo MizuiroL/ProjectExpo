@@ -1,4 +1,4 @@
-package cli;
+package model;
 
 public class ExhibitorNotification {
 	private Integer notificationId;

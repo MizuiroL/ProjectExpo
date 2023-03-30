@@ -5,6 +5,7 @@ import jdbc.ExhibitorDAO;
 import jdbc.ExpoDAO;
 import model.Exhibit;
 import model.Exhibitor;
+import model.ExhibitorNotification;
 
 import java.time.LocalDateTime;
 import java.util.List;

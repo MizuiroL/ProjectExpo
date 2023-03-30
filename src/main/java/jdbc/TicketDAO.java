@@ -49,8 +49,6 @@ public class TicketDAO {
 				throw new SQLException("Ticket purchase failed");
 			}
 			generatedKeys = statement.getGeneratedKeys();
-			//generatedKeys.last();
-			//System.out.println("THIS ONE HOW MANY GENERATEDKEYS? " + generatedKeys.getRow());
 
 			if (generatedKeys.next()) {
 				ticket.setTicketCode(generatedKeys.getInt(1));
