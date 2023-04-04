@@ -2,13 +2,13 @@ package jdbc;
 
 import model.Exhibit;
 import model.Exhibitor;
+import model.ExhibitorNotification;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import cli.ExhibitorNotification;
 
 public class ExhibitorDAO {
     public static final String selectExhibitorById = "" +
