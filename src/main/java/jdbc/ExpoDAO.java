@@ -5,6 +5,7 @@ import model.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +77,10 @@ public class ExpoDAO {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Integer exhibitAreaId = rs.getInt("exhibitAreaId");
-                exhibitAreaList.add(new FixedExhibitArea(exhibitAreaId, expoId));
+                FixedExhibitArea exhibitArea = new FixedExhibitArea();
+                exhibitArea.setExhibitAreaId(exhibitAreaId);
+                exhibitArea.setExpo(new ExpoDAO().getExpoById(expoId));
+                exhibitAreaList.add(exhibitArea);
             }
             DB.closeConnection(connection);
         } catch (SQLException e) {
@@ -94,13 +98,23 @@ public class ExpoDAO {
     		ResultSet rs = statement.executeQuery();
     		
     		while (rs.next()) {
-    			Integer exhibitId = rs.getInt("exhibitId");
-    			Integer exhibitAreaId = rs.getInt("exhibitAreaId");
-    			Integer exhibitorId = rs.getInt("exhibitorId");
-    			String exhibitName = rs.getString("exhibitName");
-    			LocalDateTime exhibitStartDate = LocalDateTime.of(rs.getDate("exhibitStartDate").toLocalDate(), rs.getTime("exhibitStartTime").toLocalTime());
-                LocalDateTime exhibitEndDate = LocalDateTime.of(rs.getDate("exhibitEndDate").toLocalDate(), rs.getTime("exhibitEndTime").toLocalTime());
-                Exhibit exhibit = new Exhibit(exhibitId, exhibitAreaId, exhibitorId, exhibitName, exhibitStartDate, exhibitEndDate);
+    			Integer exhibitId = rs.getInt("id");
+                Integer exhibitorId = rs.getInt("exhibitorId");
+                String name = rs.getString("name");
+                //LocalDateTime start = LocalDateTime.of(rs.getDate("startDate").toLocalDate(), rs.getTime("startTime").toLocalTime());
+                LocalDate startDate = rs.getDate("startDate").toLocalDate();
+                LocalTime startTime = rs.getTime("startTime").toLocalTime();
+                //LocalDateTime end = LocalDateTime.of(rs.getDate("endDate").toLocalDate(), rs.getTime("endTime").toLocalTime());
+                LocalDate endDate = rs.getDate("endDate").toLocalDate();
+                LocalTime endTime = rs.getTime("endTime").toLocalTime();
+                Exhibit exhibit = new Exhibit();
+                exhibit.setExhibitId(exhibitId);
+                exhibit.setExhibitor(new ExhibitorDAO().getExhibitorById(exhibitorId));
+                exhibit.setExhibitName(name);
+                exhibit.setExhibitStartDate(startDate);
+                exhibit.setExhibitStartTime(startTime);
+                exhibit.setExhibitEndDate(endDate);
+                exhibit.setExhibitEndTime(endTime);
                 exhibitList.add(exhibit);
     		}
     	} catch (SQLException e) {
@@ -117,15 +131,23 @@ public class ExpoDAO {
     		statement.setInt(1, expoId);
     		ResultSet rs = statement.executeQuery();
     		while (rs.next()) {
-    			Integer eventId = rs.getInt("eventId");
-    			Integer exhibitAreaId = rs.getInt("exhibitAreaId");
-    			Integer exhibitorId = rs.getInt("exhibitorId");
-    			String eventName = rs.getString("eventName");
-    			LocalDateTime eventStartDate = LocalDateTime.of(rs.getDate("eventStartDate").toLocalDate(), rs.getTime("eventStartTime").toLocalTime());
-                LocalDateTime eventEndDate = LocalDateTime.of(rs.getDate("eventEndDate").toLocalDate(), rs.getTime("eventEndTime").toLocalTime());
-                Integer eventTotalSeats = rs.getInt("eventTotalSeats");
-                Integer eventAvailableSeats = rs.getInt("eventAvailableSeats");
-                Event event = new Event(eventId, exhibitAreaId, exhibitorId, eventName, eventStartDate, eventEndDate, eventTotalSeats, eventAvailableSeats);
+    			Integer exhibitId = rs.getInt("id");
+                Integer exhibitorId = rs.getInt("exhibitorId");
+                String name = rs.getString("name");
+                //LocalDateTime start = LocalDateTime.of(rs.getDate("startDate").toLocalDate(), rs.getTime("startTime").toLocalTime());
+                LocalDate startDate = rs.getDate("startDate").toLocalDate();
+                LocalTime startTime = rs.getTime("startTime").toLocalTime();
+                //LocalDateTime end = LocalDateTime.of(rs.getDate("endDate").toLocalDate(), rs.getTime("endTime").toLocalTime());
+                LocalDate endDate = rs.getDate("endDate").toLocalDate();
+                LocalTime endTime = rs.getTime("endTime").toLocalTime();
+                Event event = new Event();
+                event.setExhibitId(exhibitId);
+                event.setExhibitor(new ExhibitorDAO().getExhibitorById(exhibitorId));
+                event.setExhibitName(name);
+                event.setExhibitStartDate(startDate);
+                event.setExhibitStartTime(startTime);
+                event.setExhibitEndDate(endDate);
+                event.setExhibitEndTime(endTime);
                 eventList.add(event);
     		}
     	} catch (SQLException e) {
@@ -143,15 +165,24 @@ public class ExpoDAO {
     		statement.setString(2, fiscalCode);
     		ResultSet rs = statement.executeQuery();
     		while (rs.next()) {
-    			Integer eventId = rs.getInt("eventId");
-    			Integer exhibitAreaId = rs.getInt("exhibitAreaId");
-    			Integer exhibitorId = rs.getInt("exhibitorId");
-    			String eventName = rs.getString("eventName");
-    			LocalDateTime eventStartDate = LocalDateTime.of(rs.getDate("eventStartDate").toLocalDate(), rs.getTime("eventStartTime").toLocalTime());
-                LocalDateTime eventEndDate = LocalDateTime.of(rs.getDate("eventEndDate").toLocalDate(), rs.getTime("eventEndTime").toLocalTime());
-                Integer eventTotalSeats = rs.getInt("eventTotalSeats");
-                Integer eventAvailableSeats = rs.getInt("eventAvailableSeats");
-                Event event = new Event(eventId, exhibitAreaId, exhibitorId, eventName, eventStartDate, eventEndDate, eventTotalSeats, eventAvailableSeats);
+    			Integer exhibitId = rs.getInt("id");
+                Integer exhibitorId = rs.getInt("exhibitorId");
+                String name = rs.getString("name");
+                //LocalDateTime start = LocalDateTime.of(rs.getDate("startDate").toLocalDate(), rs.getTime("startTime").toLocalTime());
+                LocalDate startDate = rs.getDate("startDate").toLocalDate();
+                LocalTime startTime = rs.getTime("startTime").toLocalTime();
+                //LocalDateTime end = LocalDateTime.of(rs.getDate("endDate").toLocalDate(), rs.getTime("endTime").toLocalTime());
+                LocalDate endDate = rs.getDate("endDate").toLocalDate();
+                LocalTime endTime = rs.getTime("endTime").toLocalTime();
+                Event event = new Event();
+                event.setExhibitId(exhibitId);
+                event.setExhibitor(new ExhibitorDAO().getExhibitorById(exhibitorId));
+                event.setExhibitName(name);
+                event.setExhibitStartDate(startDate);
+                event.setExhibitStartTime(startTime);
+                event.setExhibitEndDate(endDate);
+                event.setExhibitEndTime(endTime);
+                //Event event = new Event(eventId, exhibitAreaId, exhibitorId, eventName, eventStartDate, eventEndDate, eventTotalSeats, eventAvailableSeats);
                 eventList.add(event);
     		}
     	} catch (SQLException e) {

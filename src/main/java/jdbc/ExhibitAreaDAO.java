@@ -3,7 +3,9 @@ package jdbc;
 import model.*;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class ExhibitAreaDAO {
             "WHERE exhibitAreaId=?;";
 
     public ExhibitArea getExhibitAreaById(Integer exhibitAreaId) throws SQLException {
-        ExhibitArea exhibitArea = null;
+        FixedExhibitArea exhibitArea = null;
         Connection connection = DB.getConnection();
         PreparedStatement statement = connection.prepareStatement(selectExhibitAreaById);
         statement.setInt(1, exhibitAreaId);
@@ -31,7 +33,9 @@ public class ExhibitAreaDAO {
         if (rs.next()) {
             //Integer expoId = rs.getInt("expoId");
             Integer expoId = rs.getInt("expoId");
-            exhibitArea = new FixedExhibitArea(exhibitAreaId, expoId);
+            exhibitArea = new FixedExhibitArea();
+            exhibitArea.setExhibitAreaId(exhibitAreaId);
+            exhibitArea.setExpo(new ExpoDAO().getExpoById(expoId));
         }
         DB.closeConnection(connection);
         return exhibitArea;
@@ -49,9 +53,22 @@ public class ExhibitAreaDAO {
                 Integer exhibitId = rs.getInt("id");
                 Integer exhibitorId = rs.getInt("exhibitorId");
                 String name = rs.getString("name");
-                LocalDateTime start = LocalDateTime.of(rs.getDate("startDate").toLocalDate(), rs.getTime("startTime").toLocalTime());
-                LocalDateTime end = LocalDateTime.of(rs.getDate("endDate").toLocalDate(), rs.getTime("endTime").toLocalTime());
-                exhibitList.add(new Exhibit(exhibitId, exhibitAreaId, exhibitorId, name, start, end));
+                //LocalDateTime start = LocalDateTime.of(rs.getDate("startDate").toLocalDate(), rs.getTime("startTime").toLocalTime());
+                LocalDate startDate = rs.getDate("startDate").toLocalDate();
+                LocalTime startTime = rs.getTime("startTime").toLocalTime();
+                //LocalDateTime end = LocalDateTime.of(rs.getDate("endDate").toLocalDate(), rs.getTime("endTime").toLocalTime());
+                LocalDate endDate = rs.getDate("endDate").toLocalDate();
+                LocalTime endTime = rs.getTime("endTime").toLocalTime();
+                Exhibit exhibit = new Exhibit();
+                exhibit.setExhibitId(exhibitId);
+                exhibit.setExhibitor(new ExhibitorDAO().getExhibitorById(exhibitorId));
+                exhibit.setExhibitName(name);
+                exhibit.setExhibitStartDate(startDate);
+                exhibit.setExhibitStartTime(startTime);
+                exhibit.setExhibitEndDate(endDate);
+                exhibit.setExhibitEndTime(endTime);
+                exhibitList.add(exhibit);
+                //exhibitList.add(new Exhibit(exhibitId, exhibitAreaId, exhibitorId, name, start, end));
             }
             DB.closeConnection(connection);
         } catch (SQLException e) {

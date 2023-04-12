@@ -25,7 +25,13 @@ public class VisitorDAO {
 				String name = rs.getString("name");
 				String surname = rs.getString("surname");
 				String email = rs.getString("email");
-				visitor = new Visitor(fiscalCode, expoId, name, surname, email);
+				visitor = new Visitor();
+				visitor.setFiscalCode(fiscalCode);
+				visitor.setName(name);
+				visitor.setSurname(surname);
+				visitor.setEmail(email);
+				visitor.setExpoId(expoId);
+				//visitor = new Visitor(fiscalCode, expoId, name, surname, email);
 			}
 			DB.closeConnection(connection);
 		} catch (SQLException e) {

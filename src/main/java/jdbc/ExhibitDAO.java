@@ -3,7 +3,9 @@ package jdbc;
 import model.Exhibit;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class ExhibitDAO {
     private static final String selectExhibitById = "" +
@@ -32,12 +34,22 @@ public class ExhibitDAO {
             statement.setInt(1, exhibitId);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                Integer exhibitAreaId = rs.getInt("exhibitAreaId");
                 Integer exhibitorId = rs.getInt("exhibitorId");
-                String exhibitName = rs.getString("exhibitName");
-                LocalDateTime exhibitStartDate = LocalDateTime.of(rs.getDate("exhibitStartDate").toLocalDate(), rs.getTime("exhibitStartTime").toLocalTime());
-                LocalDateTime exhibitEndDate = LocalDateTime.of(rs.getDate("exhibitEndDate").toLocalDate(), rs.getTime("exhibitEndTime").toLocalTime());
-                exhibit = new Exhibit(exhibitId, exhibitAreaId, exhibitorId, exhibitName, exhibitStartDate, exhibitEndDate);
+                String name = rs.getString("name");
+                //LocalDateTime start = LocalDateTime.of(rs.getDate("startDate").toLocalDate(), rs.getTime("startTime").toLocalTime());
+                LocalDate startDate = rs.getDate("startDate").toLocalDate();
+                LocalTime startTime = rs.getTime("startTime").toLocalTime();
+                //LocalDateTime end = LocalDateTime.of(rs.getDate("endDate").toLocalDate(), rs.getTime("endTime").toLocalTime());
+                LocalDate endDate = rs.getDate("endDate").toLocalDate();
+                LocalTime endTime = rs.getTime("endTime").toLocalTime();
+                exhibit = new Exhibit();
+                exhibit.setExhibitId(exhibitId);
+                exhibit.setExhibitor(new ExhibitorDAO().getExhibitorById(exhibitorId));
+                exhibit.setExhibitName(name);
+                exhibit.setExhibitStartDate(startDate);
+                exhibit.setExhibitStartTime(startTime);
+                exhibit.setExhibitEndDate(endDate);
+                exhibit.setExhibitEndTime(endTime);
             }
             DB.closeConnection(connection);
         } catch (SQLException e) {
@@ -51,13 +63,13 @@ public class ExhibitDAO {
         	Connection connection = DB.getConnection();
         	PreparedStatement statement = connection.prepareStatement(insertIntoExhibit, Statement.RETURN_GENERATED_KEYS);
         	ResultSet generatedKeys;
-            statement.setInt(1, exhibit.getExhibitAreaId());
-            statement.setInt(2, exhibit.getExhibitorId());
+            statement.setInt(1, exhibit.getExhibitArea().getExhibitAreaId());
+            statement.setInt(2, exhibit.getExhibitor().getExhibitorId());
             statement.setString(3, exhibit.getExhibitName());
-            statement.setDate(4, Date.valueOf(exhibit.getExhibitStartDate().toLocalDate()));
-            statement.setTime(5, Time.valueOf(exhibit.getExhibitStartDate().toLocalTime()));
-            statement.setDate(6, Date.valueOf(exhibit.getExhibitEndDate().toLocalDate()));
-            statement.setTime(7, Time.valueOf(exhibit.getExhibitEndDate().toLocalTime()));
+            statement.setDate(4, Date.valueOf(exhibit.getExhibitStartDate()));
+            statement.setTime(5, Time.valueOf(exhibit.getExhibitStartTime()));
+            statement.setDate(6, Date.valueOf(exhibit.getExhibitEndDate()));
+            statement.setTime(7, Time.valueOf(exhibit.getExhibitEndTime()));
 
             if (statement.executeUpdate() == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");

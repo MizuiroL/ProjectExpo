@@ -1,47 +1,73 @@
 package model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
+@Entity
+@Table(name = "visitor")
 public class Visitor implements EventObserver {
-    private final String fiscalCode;
-    private final Integer expoId;
-    private final String name;
-    private final String surname;
-    private final String email;
+	@Id
+	@Column(name = "fiscalCode")
+	private String fiscalCode;
+	@Column(name = "name")
+	private String name;
+	@Column(name = "surname")
+	private String surname;
+	@Column(name = "email")
+	private String email;
+	@Transient
+	private Integer expoId;
 
-    public Visitor(String fiscalCode, Integer expoId, String name, String surname, String email) {
-        this.fiscalCode = fiscalCode;
-        this.expoId = expoId;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-    }
+	public String getFiscalCode() {
+		return fiscalCode;
+	}
 
-    public String getFiscalCode() {
-        return fiscalCode;
-    }
+	public void setFiscalCode(String fiscalCode) {
+		this.fiscalCode = fiscalCode;
+	}
 
-    public Integer getExpoId() {
-        return expoId;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getSurname() {
-        return surname;
-    }
+	public String getSurname() {
+		return surname;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
 
-    public Ticket purchaseEventTicket(Event event) {
-        return event.bookEvent(this);
-    }
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Integer getExpoId() {
+		return expoId;
+	}
+
+	public void setExpoId(Integer expoId) {
+		this.expoId = expoId;
+	}
+
+	public Ticket purchaseEventTicket(Event event) {
+		return event.bookEvent(this);
+	}
 
 	@Override
 	public void update(Event e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

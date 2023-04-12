@@ -5,7 +5,9 @@ import model.Exhibitor;
 import model.ExhibitorNotification;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +46,9 @@ public class ExhibitorDAO {
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 String exhibitorName = rs.getString("exhibitorName");
-                exhibitor = new Exhibitor(exhibitorId, exhibitorName);
+                exhibitor = new Exhibitor();
+                exhibitor.setExhibitorId(exhibitorId);
+                exhibitor.setExhibitorName(exhibitorName);
             }
             DB.closeConnection(connection);
         } catch (SQLException e) {
@@ -62,12 +66,23 @@ public class ExhibitorDAO {
             statement.setInt(2, exhibitorId);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Integer exhibitId = rs.getInt("id");
-                Integer exhibitAreaId = rs.getInt("exhibitAreaId");
+            	Integer exhibitId = rs.getInt("id");
                 String name = rs.getString("name");
-                LocalDateTime start = LocalDateTime.of(rs.getDate("startDate").toLocalDate(), rs.getTime("startTime").toLocalTime());
-                LocalDateTime end = LocalDateTime.of(rs.getDate("endDate").toLocalDate(), rs.getTime("endTime").toLocalTime());
-                exhibitList.add(new Exhibit(exhibitId, exhibitAreaId, exhibitorId, name, start, end));
+                //LocalDateTime start = LocalDateTime.of(rs.getDate("startDate").toLocalDate(), rs.getTime("startTime").toLocalTime());
+                LocalDate startDate = rs.getDate("startDate").toLocalDate();
+                LocalTime startTime = rs.getTime("startTime").toLocalTime();
+                //LocalDateTime end = LocalDateTime.of(rs.getDate("endDate").toLocalDate(), rs.getTime("endTime").toLocalTime());
+                LocalDate endDate = rs.getDate("endDate").toLocalDate();
+                LocalTime endTime = rs.getTime("endTime").toLocalTime();
+                Exhibit exhibit = new Exhibit();
+                exhibit.setExhibitId(exhibitId);
+                exhibit.setExhibitor(new ExhibitorDAO().getExhibitorById(exhibitorId));
+                exhibit.setExhibitName(name);
+                exhibit.setExhibitStartDate(startDate);
+                exhibit.setExhibitStartTime(startTime);
+                exhibit.setExhibitEndDate(endDate);
+                exhibit.setExhibitEndTime(endTime);
+                exhibitList.add(exhibit);
             }
             DB.closeConnection(connection);
         } catch (SQLException e) {
@@ -102,7 +117,11 @@ public class ExhibitorDAO {
 	            while (rs.next()) {
 	                Integer notificationId = rs.getInt("notificationId");
 	                String message = rs.getString("message");
-	                notificationList.add(new ExhibitorNotification(notificationId, exhibitorId, message));
+	                ExhibitorNotification notification = new ExhibitorNotification();
+	                notification.setExhibitor(new ExhibitorDAO().getExhibitorById(exhibitorId));
+	                notification.setNotificationId(notificationId);
+	                notification.setMessage(message);
+	                notificationList.add(notification);
 	            }
 	            DB.closeConnection(connection);
 	        } catch (SQLException e) {

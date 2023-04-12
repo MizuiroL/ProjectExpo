@@ -85,11 +85,11 @@ public class ExhibitorCLI {
 		int option = in.nextInt();
 		switch (option) {
 		case 1:
-			context.getExhibitor().setExhibitStartDate(exhibit, getDateTimeData());
+			//context.getExhibitor().setExhibitStartDate(exhibit, getDateTimeData());
 			// exhibit.setExhibitStartDate(getDateTimeData());
 			break;
 		case 2:
-			exhibit.setExhibitEndDate(getDateTimeData());
+			exhibit.setExhibitEndDate(getDateTimeData().toLocalDate());
 		case 3:
 			context.getExhibitor().removeExhibit(exhibit);
 			break;

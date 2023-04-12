@@ -2,42 +2,39 @@ package model;
 
 import jdbc.TicketDAO;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-public class Event extends Exhibit {
-    private final Integer eventTotalSeats;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
+@Entity
+@Table(name = "event")
+public class Event extends AbstractExhibit {
+	@Column(name = "eventTotalSeats")
+    private Integer eventTotalSeats;
+	@Column(name = "eventAvailableSeats")
     private Integer eventAvailableSeats;
+    @Transient
     private List<EventObserver> observerList;
 
-    public Event(Integer exhibitId, Integer exhibitAreaId, Integer exhibitorId, String exhibitName, LocalDateTime exhibitStartDate, LocalDateTime exhibitEndDate, Integer eventTotalSeats, Integer eventAvailableSeats) {
-        super(exhibitId, exhibitAreaId, exhibitorId, exhibitName, exhibitStartDate, exhibitEndDate);
-        this.eventTotalSeats = eventTotalSeats;
-        this.eventAvailableSeats = eventAvailableSeats;
-    }
-    
-    
-
-    public Integer getEventAvailableSeats() {
+	public Integer getEventAvailableSeats() {
 		return eventAvailableSeats;
 	}
-
-
 
 	public void setEventAvailableSeats(Integer eventAvailableSeats) {
 		this.eventAvailableSeats = eventAvailableSeats;
 	}
 
-
-
 	public Integer getEventTotalSeats() {
 		return eventTotalSeats;
 	}
 
-
-
 	public Ticket bookEvent(Visitor visitor) {
-        Ticket ticket = new Ticket(this.exhibitId, visitor.getFiscalCode());
+        Ticket ticket = new Ticket();
+        ticket.setEvent(this);
+        ticket.setVisitor(visitor);
         if (eventAvailableSeats > 0) {
             eventAvailableSeats -= 1;
             ticket = new TicketDAO().newTicket(ticket);

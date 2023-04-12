@@ -3,20 +3,29 @@ package model;
 import jdbc.ExhibitDAO;
 import jdbc.ExhibitorDAO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-public class Exhibitor implements EventObserver {
-    private final Integer exhibitorId;
-    private final String exhibitorName;
-    private List<Exhibit> exhibitList;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
-    public Exhibitor(Integer exhibitorId, String exhibitorName) {
-        this.exhibitorId = exhibitorId;
-        this.exhibitorName = exhibitorName;
-        this.exhibitList = new ArrayList<Exhibit>();
-    }
+@Entity
+@Table(name = "exhibitor")
+public class Exhibitor implements EventObserver {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "exhibitorId")
+    private Integer exhibitorId;
+	@Column(name = "exhibitorName")
+    private String exhibitorName;
+	@OneToMany(mappedBy = "exhibit")
+    private List<Exhibit> exhibitList;
 
     public Integer getExhibitorId() {
         return exhibitorId;
@@ -26,7 +35,15 @@ public class Exhibitor implements EventObserver {
         return exhibitorName;
     }
 
-    public List<Exhibit> getExhibitList() {
+    public void setExhibitorId(Integer exhibitorId) {
+		this.exhibitorId = exhibitorId;
+	}
+
+	public void setExhibitorName(String exhibitorName) {
+		this.exhibitorName = exhibitorName;
+	}
+
+	public List<Exhibit> getExhibitList() {
         if (exhibitList.isEmpty()) {
             exhibitList = new ExhibitorDAO().getExhibitsByExhibitorId(this.getExhibitorId());
         }
@@ -62,23 +79,7 @@ public class Exhibitor implements EventObserver {
     }
 
     public void removeExhibit(Exhibit exhibit) {
-        boolean correctExhibitor = exhibit.getExhibitorId().equals(this.exhibitorId);
-        boolean beforeExhibitDate = LocalDateTime.now().isBefore(exhibit.exhibitStartDate);
-        if (correctExhibitor && beforeExhibitDate) {
-            exhibitList.remove(exhibit);
-            new ExhibitDAO().removeExhibit(exhibit);
-        } else {
-            System.out.println("Failed delete:");
-            System.out.println(!correctExhibitor ? "Unauthorized delete" : "Cannot delete an exhibit after its start date");
-        }
-    }
-
-    public Exhibit setExhibitStartDate(Exhibit exhibit, LocalDateTime exhibitStartDate) {
-        //exhibitList.replaceAll(e -> e.getExhibitId().equals(exhibit.getExhibitId()) ? exhibit : e);
-        exhibit = getExhibitById(exhibit.getExhibitId());
-        exhibit.setExhibitStartDate(exhibitStartDate);
-        new ExhibitDAO().updateStartDate(exhibit.getExhibitId(), exhibitStartDate);
-        return exhibit;
+        
     }
 
 	@Override

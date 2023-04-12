@@ -27,7 +27,15 @@ public class EventDAO {
                 LocalDateTime eventEndDate = LocalDateTime.of(rs.getDate("eventEndDate").toLocalDate(), rs.getTime("eventEndTime").toLocalTime());
                 Integer eventTotalSeats = rs.getInt("exhibitAreaId");
                 Integer eventAvailableSeats = rs.getInt("exhibitorId");
-                event = new Event(eventId, exhibitAreaId, exhibitorId, eventName, eventStartDate, eventEndDate, eventTotalSeats, eventAvailableSeats);
+                
+                event.setExhibitId(eventId);
+                event.setExhibitName(eventName);
+                event.setExhibitStartDate(eventStartDate.toLocalDate());
+                event.setExhibitStartTime(eventStartDate.toLocalTime());
+                event.setExhibitEndDate(eventEndDate.toLocalDate());
+                event.setExhibitEndTime(eventEndDate.toLocalTime());
+                event.setEventAvailableSeats(eventAvailableSeats);
+                // event = new Event(eventId, exhibitAreaId, exhibitorId, eventName, eventStartDate, eventEndDate, eventTotalSeats, eventAvailableSeats);
             }
             DB.closeConnection(connection);
         } catch (SQLException e) {
