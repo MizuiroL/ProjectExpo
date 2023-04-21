@@ -24,7 +24,7 @@ public class Exhibitor implements EventObserver {
     private Integer exhibitorId;
 	@Column(name = "exhibitorName")
     private String exhibitorName;
-	@OneToMany(mappedBy = "exhibit")
+	@OneToMany(mappedBy = "exhibitor")
     private List<Exhibit> exhibitList;
 
     public Integer getExhibitorId() {
@@ -44,9 +44,6 @@ public class Exhibitor implements EventObserver {
 	}
 
 	public List<Exhibit> getExhibitList() {
-        if (exhibitList.isEmpty()) {
-            exhibitList = new ExhibitorDAO().getExhibitsByExhibitorId(this.getExhibitorId());
-        }
         return exhibitList;
     }
 
@@ -79,7 +76,7 @@ public class Exhibitor implements EventObserver {
     }
 
     public void removeExhibit(Exhibit exhibit) {
-        
+        exhibitList.remove(exhibit);
     }
 
 	@Override

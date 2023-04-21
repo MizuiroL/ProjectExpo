@@ -1,9 +1,8 @@
 package model;
 
-import jdbc.ExpoDAO;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -13,13 +12,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "expo")
 public class ExpoManager implements Expo {
-	@Transient
-    private final ExpoDAO expoDataAccess;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "expoId")
@@ -32,12 +28,12 @@ public class ExpoManager implements Expo {
     private String address;
     @Column(name = "streetNumber")
     private String streetNumber;
-    @Column(name = "startDate")
+    @Column(name = "expoStartDate")
     private LocalDate startDate;
-    @Column(name = "endDate")
+    @Column(name = "expoEndDate")
     private LocalDate endDate;
     @OneToMany(mappedBy = "expo")
-    private List<ExhibitArea> exhibitAreaList;
+    private List<FixedExhibitArea> exhibitAreaList;
 
     public ExpoManager(Integer expoId, String province, String comune, String address, String streetNumber, LocalDate startDate, LocalDate endDate) {
         this.expoId = expoId;
@@ -47,16 +43,11 @@ public class ExpoManager implements Expo {
         this.streetNumber = streetNumber;
         this.startDate = startDate;
         this.endDate = endDate;
-        expoDataAccess = new ExpoDAO();
     }
 
     public ExpoManager() {
-        expoDataAccess = new ExpoDAO();
+    	exhibitAreaList = new ArrayList<>();
     }
-
-    public ExpoDAO getExpoDataAccess() {
-		return expoDataAccess;
-	}
 
 	public Integer getExpoId() {
 		return expoId;
@@ -86,13 +77,46 @@ public class ExpoManager implements Expo {
 		return endDate;
 	}
 
-	public List<ExhibitArea> getExhibitAreaList() {
+	public List<FixedExhibitArea> getExhibitAreaList() {
 		return exhibitAreaList;
+	}
+	
+
+	public void setExpoId(Integer expoId) {
+		this.expoId = expoId;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public void setComune(String comune) {
+		this.comune = comune;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setStreetNumber(String streetNumber) {
+		this.streetNumber = streetNumber;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
+	public void setExhibitAreaList(List<FixedExhibitArea> exhibitAreaList) {
+		this.exhibitAreaList = exhibitAreaList;
 	}
 
 	@Override
     public Exhibit assignExhibitArea(Exhibitor exhibitor, LocalDateTime start, LocalDateTime end) {
-        for (ExhibitArea ea : exhibitAreaList) {
+        for (FixedExhibitArea ea : exhibitAreaList) {
         	
             if (!ea.isOccupied(start, end)) {
             	

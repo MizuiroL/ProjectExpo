@@ -35,17 +35,19 @@ public class Event extends AbstractExhibit {
         Ticket ticket = new Ticket();
         ticket.setEvent(this);
         ticket.setVisitor(visitor);
+        
         if (eventAvailableSeats > 0) {
             eventAvailableSeats -= 1;
-            ticket = new TicketDAO().newTicket(ticket);
+            //ticket = new TicketDAO().newTicket(ticket);
             notifyObservers();
         }
+        
         subscribe(visitor);
         return ticket;
     }
     
     public void subscribe(EventObserver observer) {
-    	if (observer != null && observerList.contains(observer)) {
+    	if (observer != null && !observerList.contains(observer)) {
     		observerList.add(observer);
     	}
     }
@@ -59,4 +61,8 @@ public class Event extends AbstractExhibit {
     		observer.update(this);
     	}
     }
+
+	public void setEventTotalSeats(Integer eventTotalSeats) {
+		this.eventTotalSeats = eventTotalSeats;
+	}
 }

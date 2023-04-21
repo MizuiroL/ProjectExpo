@@ -18,8 +18,6 @@ public class Visitor implements EventObserver {
 	private String surname;
 	@Column(name = "email")
 	private String email;
-	@Transient
-	private Integer expoId;
 
 	public String getFiscalCode() {
 		return fiscalCode;
@@ -51,14 +49,6 @@ public class Visitor implements EventObserver {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Integer getExpoId() {
-		return expoId;
-	}
-
-	public void setExpoId(Integer expoId) {
-		this.expoId = expoId;
 	}
 
 	public Ticket purchaseEventTicket(Event event) {

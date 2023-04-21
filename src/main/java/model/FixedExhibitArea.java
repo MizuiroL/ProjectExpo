@@ -1,8 +1,5 @@
 package model;
 
-import jdbc.ExhibitAreaDAO;
-import jdbc.ExhibitDAO;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /*
@@ -25,12 +23,14 @@ public class FixedExhibitArea implements ExhibitArea {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "exhibitAreaId")
-    private Integer exhibitAreaId;
+	private Integer exhibitAreaId;
 	@ManyToOne
 	@JoinColumn(name = "expoId")
-	private Expo expo;
-    
-    public Integer getExhibitAreaId() {
+	private ExpoManager expo;
+	@OneToMany(mappedBy = "exhibitArea")
+    private List<Exhibit> exhibitList;
+
+	public Integer getExhibitAreaId() {
 		return exhibitAreaId;
 	}
 
@@ -38,35 +38,33 @@ public class FixedExhibitArea implements ExhibitArea {
 		this.exhibitAreaId = exhibitAreaId;
 	}
 
-	public Expo getExpo() {
+	public ExpoManager getExpo() {
 		return expo;
 	}
 
-	public void setExpo(Expo expo) {
+	public void setExpo(ExpoManager expo) {
 		this.expo = expo;
 	}
 
-	// TODO reduce number of arguments
-    public Exhibit occupy(Exhibit exhibit) {
-        //new Exhibit(this.getExhibitAreaId(), exhibitor.getExhibitorId(), exhibitName, start, end);
-        return new ExhibitDAO().newExhibit(exhibit);
-    }
+	public Exhibit occupy(Exhibit exhibit) {
+		exhibitList.add(exhibit);
+		return exhibit;
+	}
 
-    public boolean isOccupied(LocalDateTime start, LocalDateTime end) {
-        List<Exhibit> exhibitList = new ExhibitAreaDAO().getExhibitsByExhibitAreaId(this.exhibitAreaId);
-        
-        for (Exhibit e : exhibitList) {
-        	LocalDateTime exhibitStartDateTime = LocalDateTime.of(e.getExhibitStartDate(), e.getExhibitStartTime());
-        	LocalDateTime exhibitEndDateTime = LocalDateTime.of(e.getExhibitEndDate(), e.getExhibitEndTime());
-        	
-            Boolean startOverlap = start.isAfter(exhibitStartDateTime) && start.isBefore(exhibitEndDateTime);
-            Boolean endOverlap = end.isAfter(exhibitStartDateTime) && end.isBefore(exhibitEndDateTime);
-            Boolean completeOverlap = start.isBefore(exhibitStartDateTime) && end.isAfter(exhibitEndDateTime);
+	public boolean isOccupied(LocalDateTime start, LocalDateTime end) {
 
-            if (startOverlap || endOverlap || completeOverlap) {
-                return true;
-            }
-        }
-        return false;
-    }
+		for (AbstractExhibit e : exhibitList) {
+			LocalDateTime exhibitStartDateTime = LocalDateTime.of(e.getExhibitStartDate(), e.getExhibitStartTime());
+			LocalDateTime exhibitEndDateTime = LocalDateTime.of(e.getExhibitEndDate(), e.getExhibitEndTime());
+
+			Boolean startOverlap = start.isAfter(exhibitStartDateTime) && start.isBefore(exhibitEndDateTime);
+			Boolean endOverlap = end.isAfter(exhibitStartDateTime) && end.isBefore(exhibitEndDateTime);
+			Boolean completeOverlap = start.isBefore(exhibitStartDateTime) && end.isAfter(exhibitEndDateTime);
+
+			if (startOverlap || endOverlap || completeOverlap) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

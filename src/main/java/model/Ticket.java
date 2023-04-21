@@ -15,30 +15,36 @@ public class Ticket {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ticketCode")
-    private Integer ticketCode;
+	private Integer ticketCode;
 	@ManyToOne
 	@JoinColumn(name = "eventId")
 	private Event event;
 	@ManyToOne
 	@JoinColumn(name = "fiscalCode")
 	private Visitor visitor;
+
 	public Integer getTicketCode() {
 		return ticketCode;
 	}
+
 	public void setTicketCode(Integer ticketCode) {
 		this.ticketCode = ticketCode;
 	}
+
 	public Event getEvent() {
 		return event;
 	}
+
 	public void setEvent(Event event) {
 		this.event = event;
 	}
+
 	public Visitor getVisitor() {
 		return visitor;
 	}
+
 	public void setVisitor(Visitor visitor) {
 		this.visitor = visitor;
 	}
-	
+
 }

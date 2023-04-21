@@ -20,7 +20,7 @@ public class AbstractExhibit {
 	private Integer exhibitId;
 	@ManyToOne
 	@JoinColumn(name = "exhibitAreaId")
-	private ExhibitArea exhibitArea;
+	private FixedExhibitArea exhibitArea;
 	@ManyToOne
 	@JoinColumn(name = "exhibitorId")
 	private Exhibitor exhibitor;
@@ -41,10 +41,10 @@ public class AbstractExhibit {
 	public void setExhibitId(Integer exhibitId) {
 		this.exhibitId = exhibitId;
 	}
-	public ExhibitArea getExhibitArea() {
+	public FixedExhibitArea getExhibitArea() {
 		return exhibitArea;
 	}
-	public void setExhibitArea(ExhibitArea exhibitArea) {
+	public void setExhibitArea(FixedExhibitArea exhibitArea) {
 		this.exhibitArea = exhibitArea;
 	}
 	public Exhibitor getExhibitor() {
@@ -84,6 +84,4 @@ public class AbstractExhibit {
 		this.exhibitEndDate = exhibitEndDate;
 	}
 	
-	
-
 }
