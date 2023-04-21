@@ -12,7 +12,7 @@ public class EventDAO {
             "WHERE eventId=?;";
 
     public Event getEventById(Integer eventId) {
-        Event event = null;
+        Event event = new Event();
         try {
             Connection connection = DB.getConnection();
 

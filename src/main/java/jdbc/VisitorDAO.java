@@ -30,7 +30,6 @@ public class VisitorDAO {
 				visitor.setName(name);
 				visitor.setSurname(surname);
 				visitor.setEmail(email);
-				visitor.setExpoId(expoId);
 				//visitor = new Visitor(fiscalCode, expoId, name, surname, email);
 			}
 			DB.closeConnection(connection);
