@@ -2,11 +2,17 @@ package service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import model.Event;
+import model.Ticket;
 import model.Visitor;
 
 public class VisitorService {
-	@PersistenceContext
 	private EntityManager entityManager;
+	
+	public VisitorService() {
+		new ExpoEntityManagerFactory() {
+		}.getManager();
+	}
 	
 	public Visitor createVisitor(String fiscalCode, String name, String surname, String email) {
 		Visitor visitor = new Visitor();
@@ -31,5 +37,10 @@ public class VisitorService {
 	public Visitor updateVisitor(Visitor visitor) {
 		entityManager.merge(visitor);
 		return visitor;
+	}
+
+	public Ticket bookEvent(Event event, Visitor visitor) {
+		// TODO check if ticket is null
+		return visitor.purchaseEventTicket(event);
 	}
 }

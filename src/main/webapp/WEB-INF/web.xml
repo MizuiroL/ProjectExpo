@@ -25,7 +25,7 @@
     <description></description>
     <display-name>CurrentExhibitsServlet</display-name>
     <servlet-name>CurrentExhibitsServlet</servlet-name>
-    <servlet-class>web.CurrentExhibitsServlet</servlet-class>
+    <servlet-class>web.visitor.CurrentExhibitsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>CurrentExhibitsServlet</servlet-name>
@@ -35,7 +35,7 @@
     <description></description>
     <display-name>FutureEventsServlet</display-name>
     <servlet-name>FutureEventsServlet</servlet-name>
-    <servlet-class>web.FutureEventsServlet</servlet-class>
+    <servlet-class>web.visitor.FutureEventsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>FutureEventsServlet</servlet-name>
@@ -43,12 +43,12 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>PurchasedEvents</display-name>
-    <servlet-name>PurchasedEvents</servlet-name>
-    <servlet-class>web.visitor.PurchasedEvents</servlet-class>
+    <display-name>BookedEventsServlet</display-name>
+    <servlet-name>BookedEventsServlet</servlet-name>
+    <servlet-class>web.visitor.BookedEventsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PurchasedEvents</servlet-name>
-    <url-pattern>/PurchasedEvents</url-pattern>
+    <servlet-name>BookedEventsServlet</servlet-name>
+    <url-pattern>/BookedEventsServlet</url-pattern>
   </servlet-mapping>
 </web-app>
