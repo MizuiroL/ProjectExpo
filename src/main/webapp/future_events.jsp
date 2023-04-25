@@ -8,11 +8,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Your booked events</title>
+<link rel="stylesheet" href="mystyle.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap"
+	rel="stylesheet">
+<title>Future events</title>
 </head>
 <body>
-	<h3>Booked Events</h3>
-	<table border="1">
+	<h3>Future Events</h3>
+	<!-- <table border="1">
 		<tr>
 			<th>eventId</th>
 			<th>eventName</th>
@@ -36,6 +42,11 @@
 				<td>${event.eventTotalSeats}</td>
 			</tr>
 		</c:forEach>
-	</table>
+	</table-->
+	<div class="flex_options">
+	<c:forEach var="event" items="${eventList}">
+		<%@ include file="event.jsp" %>
+	</c:forEach>
+	</div>
 </body>
 </html>
