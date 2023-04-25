@@ -41,7 +41,7 @@ public class ExpoDAO {
     		+ "FROM event\n"
     		+ "JOIN ticket USING (exhibitId)\n"
     		+ "JOIN visitor USING (fiscalCode)\n"
-    		+ "JOIN visitorAccount USING (fiscalCode)\n"
+    		+ "JOIN visitorExpoPass USING (fiscalCode)\n"
     		+ "WHERE expoId=?\n"
     		+ "AND fiscalCode=?";
 
