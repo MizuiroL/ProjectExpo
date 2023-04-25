@@ -41,6 +41,7 @@ public class ExpoDAO {
     		+ "FROM event\n"
     		+ "JOIN ticket USING (exhibitId)\n"
     		+ "JOIN visitor USING (fiscalCode)\n"
+    		+ "JOIN visitorAccount USING (fiscalCode)\n"
     		+ "WHERE expoId=?\n"
     		+ "AND fiscalCode=?";
 
@@ -169,15 +170,15 @@ public class ExpoDAO {
     		statement.setString(2, fiscalCode);
     		ResultSet rs = statement.executeQuery();
     		while (rs.next()) {
-    			Integer exhibitId = rs.getInt("id");
+    			Integer exhibitId = rs.getInt("exhibitId");
                 Integer exhibitorId = rs.getInt("exhibitorId");
-                String name = rs.getString("name");
+                String name = rs.getString("exhibitName");
                 //LocalDateTime start = LocalDateTime.of(rs.getDate("startDate").toLocalDate(), rs.getTime("startTime").toLocalTime());
-                LocalDate startDate = rs.getDate("startDate").toLocalDate();
-                LocalTime startTime = rs.getTime("startTime").toLocalTime();
+                LocalDate startDate = rs.getDate("exhibitStartDate").toLocalDate();
+                LocalTime startTime = rs.getTime("exhibitStartTime").toLocalTime();
                 //LocalDateTime end = LocalDateTime.of(rs.getDate("endDate").toLocalDate(), rs.getTime("endTime").toLocalTime());
-                LocalDate endDate = rs.getDate("endDate").toLocalDate();
-                LocalTime endTime = rs.getTime("endTime").toLocalTime();
+                LocalDate endDate = rs.getDate("exhibitEndDate").toLocalDate();
+                LocalTime endTime = rs.getTime("exhibitEndTime").toLocalTime();
                 Event event = new Event();
                 event.setExhibitId(exhibitId);
                 event.setExhibitor(new ExhibitorDAO().getExhibitorById(exhibitorId));
