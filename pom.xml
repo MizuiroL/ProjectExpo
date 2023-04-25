@@ -29,6 +29,12 @@
 			<version>6.1.7.Final</version>
 		</dependency>
 		
+		<dependency>
+  			<groupId>jakarta.servlet</groupId>
+ 			<artifactId>jakarta.servlet-api</artifactId>
+  			<version>6.0.0</version>
+		</dependency>
+		
 
 		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
 <!--<dependency>

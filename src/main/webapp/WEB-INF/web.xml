@@ -61,4 +61,14 @@
     <servlet-name>VisitorLoginServlet</servlet-name>
     <url-pattern>/VisitorLoginServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SingleEventServlet</display-name>
+    <servlet-name>SingleEventServlet</servlet-name>
+    <servlet-class>web.visitor.SingleEventServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SingleEventServlet</servlet-name>
+    <url-pattern>/SingleEventServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
