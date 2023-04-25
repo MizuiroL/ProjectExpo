@@ -10,6 +10,8 @@ import service.LoginService;
 
 import java.io.IOException;
 
+import exceptions.UserNotFoundException;
+
 /**
  * Servlet implementation class VisitorLoginServlet
  */
@@ -24,20 +26,20 @@ public class VisitorLoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		
+		System.out.println("VisitorLoginServlet: email " + email + " password " + password);
 
-		if (request.getSession(false) != null) {
-			// TODO Errore sessione già esistente, ridireziona ad appropriata pagina di
-			// errore
+		/*if (request.getSession(false) != null && request.getSession(false).getAttribute("loggedIn").equals(Boolean.FALSE)) {
+			request.getRequestDispatcher("visitor_already_logged.jsp").forward(request, response);
+		}*/
+		try {
+			HttpSession session = LoginService.visitorLogin(email, password, request);
+		} catch (UserNotFoundException e) {
+			request.getRequestDispatcher("failed_login.jsp").forward(request, response);
+			e.printStackTrace();
 		}
-
-		HttpSession session = request.getSession();
-		Boolean success = LoginService.visitorLogin(email, password, session);
-		if (!success) {
-			session.invalidate();
-			// TODO Errore accesso fallito, forward pagina apposta
-		}
-
-		// TODO forward alla homepage del visitor
+		
+		request.getRequestDispatcher("visitor_home.jsp").forward(request, response);
 	}
 
 }
