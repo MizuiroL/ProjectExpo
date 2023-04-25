@@ -1,5 +1,6 @@
 package web.visitor;
 
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,25 +21,26 @@ public class CurrentExhibitsServlet extends HttpServlet {
 	ExpoManagerService expoService;
 	
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CurrentExhibitsServlet() {
-        super();
+    
+	
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
         expoService = new ExpoManagerService();
-    }
+	}
+
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ExpoManager expo = expoService.findExpo(1);
-		//ExpoManager expo = new ExpoDAO().getExpoById(1);
+
 		List<Exhibit> exhibitList = expoService.getPresentExhibits(expo);
 		System.out.println(exhibitList.toString());
 		request.setAttribute("exhibitList", exhibitList);
-		//List<Exhibit> e = (List<Exhibit>) request.getAttribute("exhibitList");
+
 		request.getRequestDispatcher("/current_exhibits.jsp").forward(request, response);
 	}
 

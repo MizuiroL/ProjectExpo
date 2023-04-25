@@ -51,4 +51,14 @@
     <servlet-name>BookedEventsServlet</servlet-name>
     <url-pattern>/BookedEventsServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>VisitorLoginServlet</display-name>
+    <servlet-name>VisitorLoginServlet</servlet-name>
+    <servlet-class>web.visitor.VisitorLoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VisitorLoginServlet</servlet-name>
+    <url-pattern>/VisitorLoginServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -1,14 +1,15 @@
 package web.visitor;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jdbc.ExpoDAO;
+import model.Event;
 import model.Exhibit;
 import model.ExpoManager;
+import model.Visitor;
 import service.ExpoManagerService;
+import service.VisitorService;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,12 +35,13 @@ public class BookedEventsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ExpoManager expo = expoService.findExpo(1);
-		//ExpoManager expo = new ExpoDAO().getExpoById(1);
-		List<Exhibit> exhibitList = expoService.getPresentExhibits(expo);
-		System.out.println(exhibitList.toString());
-		request.setAttribute("exhibitList", exhibitList);
+		Visitor visitor = new VisitorService().findVisitor("RMEG123"); //TODO get visitor with session
+
+		List<Event> eventList = expoService.getBookedEvents(expo, visitor);
+		System.out.println(eventList.toString());
+		request.setAttribute("eventList", eventList);
 		//List<Exhibit> e = (List<Exhibit>) request.getAttribute("exhibitList");
-		request.getRequestDispatcher("/current_exhibits.jsp").forward(request, response);
+		request.getRequestDispatcher("/booked_events.jsp").forward(request, response);
 	}
 
 }
