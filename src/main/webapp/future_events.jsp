@@ -1,3 +1,4 @@
+<%@page import="java.awt.Event"%>
 <%@page import="model.Exhibit"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -45,7 +46,7 @@
 	</table-->
 	<div class="flex_options">
 	<c:forEach var="event" items="${eventList}">
-		<%@ include file="event.jsp" %>
+		<a href="SingleEventServlet?eventId=${event.getExhibitId()}"><%@ include file="event.jsp" %></a>
 	</c:forEach>
 	</div>
 </body>
