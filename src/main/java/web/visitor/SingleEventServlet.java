@@ -27,7 +27,7 @@ public class SingleEventServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("event", event);
 		
-		request.getRequestDispatcher("/single_event.jsp").forward(request, response);
+		request.getRequestDispatcher("/purchasable_event.jsp").forward(request, response);
 	}
 
 }
