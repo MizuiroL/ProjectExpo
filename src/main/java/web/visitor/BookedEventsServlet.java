@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Event;
 import model.Exhibit;
 import model.ExpoManager;
@@ -35,7 +36,9 @@ public class BookedEventsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ExpoManager expo = expoService.findExpo(1);
-		Visitor visitor = new VisitorService().findVisitor("RMEG123"); //TODO get visitor with session
+		HttpSession session = request.getSession(false);
+		Visitor visitor = (Visitor) session.getAttribute("visitor");
+		//Visitor visitor = new VisitorService().findVisitor("RMEG123"); //TODO get visitor with session
 
 		List<Event> eventList = expoService.getBookedEvents(expo, visitor);
 		System.out.println(eventList.toString());

@@ -35,13 +35,14 @@ public class BookEventServlet extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		Visitor visitor = (Visitor) session.getAttribute("visitor");
 		Event event = (Event) session.getAttribute("event");
-		Ticket ticket = visitorService.bookEvent(event, visitor);
+		ExpoManager expo = (ExpoManager) session.getAttribute("expo");
+		Ticket ticket = visitorService.bookEvent(expo, event, visitor);
 		// TODO manage this with a try/catch
 		if (ticket != null) {
 			session.setAttribute("purchasedTicket", ticket);
