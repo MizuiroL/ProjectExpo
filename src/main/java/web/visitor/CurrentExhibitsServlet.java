@@ -2,11 +2,10 @@ package web.visitor;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jdbc.ExpoDAO;
+import jakarta.servlet.http.HttpSession;
 import model.Exhibit;
 import model.ExpoManager;
 import service.ExpoManagerService;
@@ -35,7 +34,8 @@ public class CurrentExhibitsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ExpoManager expo = expoService.findExpo(1);
+		HttpSession session = request.getSession();
+		ExpoManager expo = (ExpoManager) session.getAttribute("expo");
 
 		List<Exhibit> exhibitList = expoService.getPresentExhibits(expo);
 		System.out.println(exhibitList.toString());

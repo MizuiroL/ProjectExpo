@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" 
+	xmlns="http://java.sun.com/xml/ns/persistence" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+		http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="Expo">
+		<class>model.AbstractExhibit</class>
+		<class>model.Event</class>
+		<class>model.Exhibit</class>
+		<class>model.FixedExhibitArea</class>
+		<class>model.Exhibitor</class>
+		<class>model.ExhibitorNotification</class>
+		<class>model.ExpoManager</class>
+		<class>model.Ticket</class>
+		<class>model.Visitor</class>
+		<properties>
+			<property name="javax.persistence.jdbc.Driver"
+				value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:mysql://localhost:3306/projectexpo" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password"
+				value="mizuiro" />
+		</properties>
+	</persistence-unit>
+</persistence>
