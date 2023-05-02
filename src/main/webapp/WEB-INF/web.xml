@@ -21,7 +21,6 @@
     <param-name>dbPassword</param-name>
     <param-value>mizuiro</param-value>
   </context-param>
-  <!-- TODO fix this servlet -->
   <servlet>
     <description></description>
     <display-name>CurrentExhibitsServlet</display-name>
@@ -81,5 +80,15 @@
   <servlet-mapping>
     <servlet-name>BookEventServlet</servlet-name>
     <url-pattern>/BookEventServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>VisitorSignupServlet</display-name>
+    <servlet-name>VisitorSignupServlet</servlet-name>
+    <servlet-class>web.visitor.VisitorSignupServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VisitorSignupServlet</servlet-name>
+    <url-pattern>/VisitorSignupServlet</url-pattern>
   </servlet-mapping>
 </web-app>
