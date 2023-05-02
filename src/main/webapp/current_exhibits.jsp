@@ -11,7 +11,7 @@
 <title>Today's exhibits</title>
 </head>
 <body>
-	<h3>Product List</h3>
+	<h3>Exhibit List</h3>
 	<table border="1">
 		<tr>
 			<th>exhibitId</th>

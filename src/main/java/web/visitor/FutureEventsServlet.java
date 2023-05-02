@@ -3,17 +3,13 @@ package web.visitor;
 import java.io.IOException;
 import java.util.List;
 
-import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Event;
-import model.Exhibit;
 import model.ExpoManager;
-import model.Visitor;
 import service.ExpoManagerService;
-import service.VisitorService;
 
 /**
  * Servlet implementation class FutureEventsServlet

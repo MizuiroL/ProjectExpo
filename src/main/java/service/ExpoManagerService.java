@@ -3,19 +3,11 @@ package service;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 import jakarta.persistence.EntityManager;
 import jdbc.ExpoDAO;
 import model.Event;
 import model.Exhibit;
-import model.Exhibitor;
-import model.Expo;
 import model.ExpoManager;
-import model.FixedExhibitArea;
-import model.Ticket;
 import model.Visitor;
 
 public class ExpoManagerService {

@@ -1,7 +1,5 @@
 package model;
 
-import jdbc.TicketDAO;
-
 import java.util.ArrayList;
 import java.util.List;
 

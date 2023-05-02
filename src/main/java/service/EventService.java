@@ -3,20 +3,16 @@ package service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import model.Event;
 import model.Exhibitor;
 import model.FixedExhibitArea;
-import model.Visitor;
 
 public class EventService {
 private EntityManager entityManager;
 	
 	public EventService() {
-		entityManager = new ExpoEntityManagerFactory() {}.getManager();
+		entityManager = new PersistenceEntityManagerFactory().getManager();
 	}
 	
 	public Event createEvent(FixedExhibitArea exhibitArea, Exhibitor exhibitor, String exhibitName,LocalDate exhibitStartDate,LocalTime exhibitStartTime,LocalDate exhibitEndDate,LocalTime exhibitEndTime, Integer eventTotalSeats, Integer eventAvailableSeats) {

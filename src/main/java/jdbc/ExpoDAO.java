@@ -4,7 +4,6 @@ import model.*;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +116,8 @@ public class ExpoDAO {
                 exhibit.setExhibitEndDate(endDate);
                 exhibit.setExhibitEndTime(endTime);
                 exhibitList.add(exhibit);
+                
+                connection.close();
     		}
     	} catch (SQLException e) {
             throw new RuntimeException(e);

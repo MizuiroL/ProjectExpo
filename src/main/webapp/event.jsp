@@ -1,4 +1,4 @@
-<div class="flex_card event_card">
+<div class="gradient-box flex-card">
 
 	Event name:
 	<h2>${event.exhibitName}<br>

@@ -6,12 +6,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Event;
-import model.Exhibit;
 import model.ExpoManager;
 import model.Visitor;
 import service.ExpoManagerService;
-import service.VisitorService;
-
 import java.io.IOException;
 import java.util.List;
 

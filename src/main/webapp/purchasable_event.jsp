@@ -18,7 +18,6 @@
 	Event event = (Event) session.getAttribute("event");
 	%>
 	<%@ include file="event.jsp"%>
-
 	<br>
 	<br>
 	<!-- TODO check if user hasn't booked this event yet

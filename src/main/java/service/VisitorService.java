@@ -3,9 +3,7 @@ package service;
 import java.util.List;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jdbc.ExpoDAO;
-import jdbc.TicketDAO;
 import model.Event;
 import model.ExpoManager;
 import model.Ticket;
