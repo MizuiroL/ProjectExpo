@@ -16,6 +16,10 @@ public class LoginDAO {
 	private static final String createVisitor = ""
 			+ "INSERT INTO visitor (fiscalCode, name, surname, email) VALUES\n"
 			+ "(?, ?, ?, ?);";
+	
+	private static final String createVisitorAccount = ""
+			+ "INSERT INTO visitorAccount (fiscalCode, email, password) VALUES\n"
+			+ "(?, ?, ?);";
 
 	public Visitor login(String email, String password) throws UserNotFoundException {
 		System.out.println("LoginDAO: email " + email + " password " + password);
@@ -46,28 +50,39 @@ public class LoginDAO {
 		return visitor;
 	}
 	
-	public Visitor createVisitor(String fiscalCode, String name, String surname, String email) {
+	public Visitor createVisitor(String fiscalCode, String name, String surname, String email, String password) {
 		Visitor visitor = new Visitor();
 		try {
 			Connection connection = DB.getConnection();
+			connection.setAutoCommit(false);
 			PreparedStatement statement = connection.prepareStatement(createVisitor);
+			PreparedStatement statement2 = connection.prepareStatement(createVisitorAccount);
 			
 			statement.setString(1, fiscalCode);
 			statement.setString(2, name);
 			statement.setString(3, surname);
 			statement.setString(4, email);
-			
+
 			statement.execute();
 			// TODO throws exception if the above is false
-			visitor.setFiscalCode(fiscalCode);
-			visitor.setName(name);
-			visitor.setSurname(surname);
-			visitor.setEmail(email);
+			
+			statement2.setString(1, fiscalCode);
+			statement2.setString(2, email);
+			statement2.setString(3, password);
+			
+			statement2.execute();
+			
+			connection.commit();
 			
 			DB.closeConnection(connection);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+		
+		visitor.setFiscalCode(fiscalCode);
+		visitor.setName(name);
+		visitor.setSurname(surname);
+		visitor.setEmail(email);
 		return visitor;
 	}
 }
