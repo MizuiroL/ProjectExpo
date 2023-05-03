@@ -1,5 +1,6 @@
 package service;
 
+import jdbc.LoginDAO;
 import model.Visitor;
 
 // TODO make this a EJB and remove static keyword
@@ -11,6 +12,6 @@ public class SignupService {
 		visitor.setSurname(surname);
 		visitor.setEmail(email);
 		
-		
+		new LoginDAO().createVisitor(fiscalCode, name, surname, email, password);
 	}
 }
