@@ -117,8 +117,9 @@ public class ExpoDAO {
                 exhibit.setExhibitEndTime(endTime);
                 exhibitList.add(exhibit);
                 
-                connection.close();
     		}
+            rs.close();
+            connection.close();
     	} catch (SQLException e) {
             throw new RuntimeException(e);
         }

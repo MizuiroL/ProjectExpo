@@ -15,7 +15,7 @@ public class TicketDAO {
 			+ "WHERE ticketCode=?";
 
 	private static final String insertTicket = ""
-			+ "INSERT INTO ticket(eventId, fiscalCode)\n"
+			+ "INSERT INTO ticket(exhibitId, fiscalCode)\n"
 			+ "VALUES (?,?);";
 
 	public Ticket getTicketByCode(Integer ticketCode) {
