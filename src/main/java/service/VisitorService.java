@@ -2,8 +2,10 @@ package service;
 
 import java.util.List;
 
+import exceptions.EventAlreadyBookedException;
 import jakarta.persistence.EntityManager;
 import jdbc.ExpoDAO;
+import jdbc.TicketDAO;
 import model.Event;
 import model.ExpoManager;
 import model.Ticket;
@@ -42,13 +44,16 @@ public class VisitorService {
 		return visitor;
 	}
 
-	public Ticket bookEvent(ExpoManager expo, Event event, Visitor visitor) {
-		List<Event> alreadyBookedEvents = new ExpoDAO().getBookedEvents(expo.getExpoId(), visitor.getFiscalCode());
-		if(alreadyBookedEvents.contains(event)) {
-			// TODO throw alreadyPurchasedException
+	public Ticket bookEvent(ExpoManager expo, Event event, Visitor visitor) throws EventAlreadyBookedException {
+		List<Event> alreadyBookedEvents = new ExpoManagerService().getBookedEvents(expo, visitor);
+		//if(alreadyBookedEvents.contains(event)) {
+		for(Event e : alreadyBookedEvents) {
+			if(e.getExhibitId() == event.getExhibitId())
+				throw new EventAlreadyBookedException("You have already booked this event");
 		}
 		Ticket ticket = visitor.purchaseEventTicket(event);
-		entityManager.persist(ticket);
+		ticket = new TicketDAO().newTicket(ticket);
+		new EventService().updateEvent(event);
 
 		return ticket;
 	}
