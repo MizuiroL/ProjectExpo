@@ -2,6 +2,7 @@ package web.visitor;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * Servlet implementation class CurrentExhibitsServlet
  */
+@WebServlet(urlPatterns = "/visitor/CurrentExhibitsServlet")
 public class CurrentExhibitsServlet extends HttpServlet {
 	ExpoManagerService expoService;
 	
@@ -41,7 +43,7 @@ public class CurrentExhibitsServlet extends HttpServlet {
 		System.out.println(exhibitList.toString());
 		request.setAttribute("exhibitList", exhibitList);
 
-		request.getRequestDispatcher("/current_exhibits.jsp").forward(request, response);
+		request.getRequestDispatcher("/visitor/current_exhibits.jsp").forward(request, response);
 	}
 
 }

@@ -1,6 +1,7 @@
 package web.visitor;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import exceptions.EventAlreadyBookedException;
 /**
  * Servlet implementation class BookEventServlet
  */
+@WebServlet(urlPatterns = "/visitor/BookEventsServlet")
 public class BookEventServlet extends HttpServlet {
 	VisitorService visitorService;
 
@@ -43,20 +45,20 @@ public class BookEventServlet extends HttpServlet {
 		Event event = (Event) session.getAttribute("event");
 		ExpoManager expo = (ExpoManager) session.getAttribute("expo");
 
-		Ticket ticket;
+		Ticket ticket = null;
 		try {
 			ticket = visitorService.bookEvent(expo, event, visitor);
 
 			if (ticket != null) {
 				session.setAttribute("purchasedTicket", ticket);
-				request.getRequestDispatcher("/ticket_purchased.jsp").forward(request, response);
+				request.getRequestDispatcher("/visitor/ticket_purchased.jsp").forward(request, response);
 			} else {
-				request.getRequestDispatcher("/failed_purchase.jsp").forward(request, response);
+				request.getRequestDispatcher("/visitor/failed_purchase.jsp").forward(request, response);
 			}
 			
 		} catch (EventAlreadyBookedException e) {
 			e.printStackTrace();
-			request.getRequestDispatcher("/failed_purchase.jsp").forward(request, response);
+			request.getRequestDispatcher("/visitor/failed_purchase.jsp").forward(request, response);
 		}
 
 	}

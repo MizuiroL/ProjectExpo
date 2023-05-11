@@ -7,7 +7,7 @@
 <title>Welcome</title>
 <link rel="stylesheet" href="mystyle.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com">
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap"
 	rel="stylesheet">
@@ -20,17 +20,17 @@
 	<div class="flex_options">
 		<div class="flex_card index_visitor view_exhibits_option">
 			<h2>
-				<a href="CurrentExhibitsServlet">What can I visit?</a>
+				<a href="visitor/CurrentExhibitsServlet">What can I visit?</a>
 			</h2>
 		</div>
 		<div class="flex_card index_visitor view_events_option">
 			<h2>
-				<a href="FutureEventsServlet">What events are available?</a>
+				<a href="visitor/FutureEventsServlet">What events are available?</a>
 			</h2>
 		</div>
 		<div class="flex_card index_visitor purchased_events_option">
 			<h2>
-				<a href="BookedEventsServlet">What events did I book?</a>
+				<a href="visitor/BookedEventsServlet">What events did I book?</a>
 			</h2>
 		</div>
 	</div>

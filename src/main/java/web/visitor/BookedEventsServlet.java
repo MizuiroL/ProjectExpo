@@ -1,6 +1,7 @@
 package web.visitor;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import java.util.List;
 /**
  * Servlet implementation class CurrentExhibitsServlet
  */
+@WebServlet(urlPatterns = "/visitor/BookedEventsServlet")
 public class BookedEventsServlet extends HttpServlet {
 	ExpoManagerService expoService;
 	
@@ -41,7 +43,7 @@ public class BookedEventsServlet extends HttpServlet {
 		System.out.println(eventList.toString());
 		request.setAttribute("eventList", eventList);
 		//List<Exhibit> e = (List<Exhibit>) request.getAttribute("exhibitList");
-		request.getRequestDispatcher("/booked_events.jsp").forward(request, response);
+		request.getRequestDispatcher("/visitor/booked_events.jsp").forward(request, response);
 	}
 
 }

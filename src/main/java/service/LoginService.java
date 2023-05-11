@@ -7,6 +7,7 @@ import jdbc.ExpoDAO;
 import jdbc.LoginDAO;
 import model.ExpoManager;
 import model.Visitor;
+import model.account.AccountType;
 
 public class LoginService {
 	public static HttpSession visitorLogin(String email, String password, HttpServletRequest request) throws UserNotFoundException {
@@ -16,6 +17,7 @@ public class LoginService {
 		HttpSession session = request.getSession();
 		session.setAttribute("visitor", visitor);
 		session.setAttribute("expo", expo);
+		session.setAttribute("accountType", AccountType.VISITOR_ACCOUNT);
 		//session.setAttribute("loggedIn", Boolean.FALSE);
 		return session;
 	}

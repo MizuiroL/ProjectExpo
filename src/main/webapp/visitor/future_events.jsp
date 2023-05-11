@@ -45,7 +45,7 @@
 	</table-->
 	<div class="flex_options">
 	<c:forEach var="event" items="${eventList}">
-		<a href="SingleEventServlet?eventId=${event.getExhibitId()}"><%@ include file="event.jsp" %></a>
+		<a href="SingleEventServlet?eventId=${event.getExhibitId()}"><%@ include file="..\event.jsp" %></a>
 	</c:forEach>
 	</div>
 </body>

@@ -49,7 +49,6 @@ public class ExpoManagerService {
 		entityManager.remove(expo);
 	}
 	
-	//TODO write this as a JPQL query
 	public List<Exhibit> getPresentExhibits(ExpoManager expo) {
 		List<Exhibit> exhibitList = new ExpoDAO().getStartedExhibits(expo.getExpoId());
 		return exhibitList;

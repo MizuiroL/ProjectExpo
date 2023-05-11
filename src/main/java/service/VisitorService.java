@@ -47,8 +47,8 @@ public class VisitorService {
 	public Ticket bookEvent(ExpoManager expo, Event event, Visitor visitor) throws EventAlreadyBookedException {
 		List<Event> alreadyBookedEvents = new ExpoManagerService().getBookedEvents(expo, visitor);
 		//if(alreadyBookedEvents.contains(event)) {
-		for(Event e : alreadyBookedEvents) {
-			if(e.getExhibitId() == event.getExhibitId())
+		for(Event bookedEvent : alreadyBookedEvents) {
+			if(bookedEvent.getExhibitId() == event.getExhibitId())
 				throw new EventAlreadyBookedException("You have already booked this event");
 		}
 		Ticket ticket = visitor.purchaseEventTicket(event);

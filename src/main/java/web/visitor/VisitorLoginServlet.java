@@ -38,7 +38,7 @@ public class VisitorLoginServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		request.getRequestDispatcher("visitor_home.jsp").forward(request, response);
+		request.getRequestDispatcher("visitor/visitor_home.jsp").forward(request, response);
 	}
 
 }

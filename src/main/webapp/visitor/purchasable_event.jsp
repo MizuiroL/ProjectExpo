@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="mystyle.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com">
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap"
 	rel="stylesheet">
@@ -17,7 +17,7 @@
 	<%
 	Event event = (Event) session.getAttribute("event");
 	%>
-	<%@ include file="event.jsp"%>
+	<%@ include file="..\event.jsp"%>
 	<br>
 	<br>
 	<!-- TODO check if user hasn't booked this event yet
