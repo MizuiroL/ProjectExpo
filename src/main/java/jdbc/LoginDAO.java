@@ -5,8 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import model.Visitor;
 import exceptions.UserNotFoundException;
+import model.Visitor;
 
 public class LoginDAO {
 	private static final String matchAccount = "" + "SELECT fiscalCode, name, surname, visitor.email\n"

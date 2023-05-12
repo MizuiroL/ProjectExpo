@@ -1,9 +1,12 @@
 package jdbc;
 
-import model.Event;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
+
+import model.Event;
 
 public class EventDAO {
     private static final String selectEventById = "" +

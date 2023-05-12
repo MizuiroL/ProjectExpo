@@ -4,7 +4,6 @@ import java.util.List;
 
 import exceptions.EventAlreadyBookedException;
 import jakarta.persistence.EntityManager;
-import jdbc.ExpoDAO;
 import jdbc.TicketDAO;
 import model.Event;
 import model.ExpoManager;

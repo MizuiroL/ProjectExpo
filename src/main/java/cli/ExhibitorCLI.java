@@ -1,15 +1,15 @@
 package cli;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Scanner;
+
 import jdbc.ExhibitDAO;
 import jdbc.ExhibitorDAO;
 import jdbc.ExpoDAO;
 import model.Exhibit;
 import model.Exhibitor;
 import model.ExhibitorNotification;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Scanner;
 
 public class ExhibitorCLI {
 	private static ExhibitorContext context = null;

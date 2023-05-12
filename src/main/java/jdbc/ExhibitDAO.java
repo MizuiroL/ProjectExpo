@@ -1,11 +1,17 @@
 package jdbc;
 
-import model.Exhibit;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+
+import model.Exhibit;
 
 public class ExhibitDAO {
     private static final String selectExhibitById = "" +

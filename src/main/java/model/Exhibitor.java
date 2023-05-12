@@ -1,7 +1,5 @@
 package model;
 
-import jdbc.ExhibitorDAO;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jdbc.ExhibitorDAO;
 
 @Entity
 @Table(name = "exhibitor")

@@ -1,15 +1,15 @@
 package cli;
 
-import jdbc.VisitorDAO;
+import java.util.List;
+import java.util.Scanner;
+
 import jdbc.EventDAO;
 import jdbc.ExpoDAO;
-import model.Visitor;
+import jdbc.VisitorDAO;
 import model.Event;
 import model.Exhibit;
 import model.Ticket;
-
-import java.util.List;
-import java.util.Scanner;
+import model.Visitor;
 
 public class VisitorCLI {
     private static VisitorContext context = null;

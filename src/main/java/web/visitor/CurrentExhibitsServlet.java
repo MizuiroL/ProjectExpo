@@ -1,5 +1,8 @@
 package web.visitor;
 
+import java.io.IOException;
+import java.util.List;
+
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,9 +13,6 @@ import jakarta.servlet.http.HttpSession;
 import model.Exhibit;
 import model.ExpoManager;
 import service.ExpoManagerService;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Servlet implementation class CurrentExhibitsServlet

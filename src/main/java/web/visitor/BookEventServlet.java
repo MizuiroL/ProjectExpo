@@ -1,5 +1,8 @@
 package web.visitor;
 
+import java.io.IOException;
+
+import exceptions.EventAlreadyBookedException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,10 +14,6 @@ import model.ExpoManager;
 import model.Ticket;
 import model.Visitor;
 import service.VisitorService;
-
-import java.io.IOException;
-
-import exceptions.EventAlreadyBookedException;
 
 /**
  * Servlet implementation class BookEventServlet

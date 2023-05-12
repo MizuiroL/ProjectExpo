@@ -1,11 +1,11 @@
 package jdbc;
 
-import model.Visitor;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import model.Visitor;
 
 public class VisitorDAO {
 	private static final String selectVisitorByFiscalCode = "" +

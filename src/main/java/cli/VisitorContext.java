@@ -1,7 +1,7 @@
 package cli;
 
-import model.Visitor;
 import model.Expo;
+import model.Visitor;
 
 public class VisitorContext {
     private Visitor visitor;
