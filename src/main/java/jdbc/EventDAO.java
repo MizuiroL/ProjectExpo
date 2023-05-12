@@ -23,8 +23,6 @@ public class EventDAO {
             statement.setInt(1, eventId);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                Integer exhibitAreaId = rs.getInt("exhibitAreaId");
-                Integer exhibitorId = rs.getInt("exhibitorId");
                 String eventName = rs.getString("eventName");
                 LocalDateTime eventStartDate = LocalDateTime.of(rs.getDate("eventStartDate").toLocalDate(), rs.getTime("eventStartTime").toLocalTime());
                 LocalDateTime eventEndDate = LocalDateTime.of(rs.getDate("eventEndDate").toLocalDate(), rs.getTime("eventEndTime").toLocalTime());
@@ -39,7 +37,6 @@ public class EventDAO {
                 event.setExhibitEndTime(eventEndDate.toLocalTime());
                 event.setEventAvailableSeats(eventAvailableSeats);
                 event.setEventTotalSeats(eventTotalSeats);
-                // event = new Event(eventId, exhibitAreaId, exhibitorId, eventName, eventStartDate, eventEndDate, eventTotalSeats, eventAvailableSeats);
             }
             DB.closeConnection(connection);
         } catch (SQLException e) {
