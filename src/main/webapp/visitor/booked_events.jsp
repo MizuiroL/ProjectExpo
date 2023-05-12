@@ -13,6 +13,7 @@
 <body>
 	<h3>Product List</h3>
 	<table border="1">
+	<caption>List of currently booked events</caption>
 		<tr>
 			<th>eventId</th>
 			<th>eventName</th>

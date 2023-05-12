@@ -13,6 +13,7 @@
 <body>
 	<h3>Exhibit List</h3>
 	<table border="1">
+	<caption>List of currently running exhibits</caption>
 		<tr>
 			<th>exhibitId</th>
 			<th>exhibitName</th>
