@@ -35,6 +35,7 @@ public class EventDAO {
                 event.setExhibitEndDate(eventEndDate.toLocalDate());
                 event.setExhibitEndTime(eventEndDate.toLocalTime());
                 event.setEventAvailableSeats(eventAvailableSeats);
+                event.setEventTotalSeats(eventTotalSeats);
                 // event = new Event(eventId, exhibitAreaId, exhibitorId, eventName, eventStartDate, eventEndDate, eventTotalSeats, eventAvailableSeats);
             }
             DB.closeConnection(connection);
