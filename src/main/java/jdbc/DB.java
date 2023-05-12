@@ -8,11 +8,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DB {
-    private static final String URL = "jdbc:mysql://localhost:3306/projectexpo";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "mizuiro";
-    
-    public static Connection getConnection() throws SQLException {
+	private static final String URL = "jdbc:mysql://localhost:3306/projectexpo";
+	private static final String USERNAME = "root";
+	private static final String PASSWORD = "mizuiro";
+
+	private DB() {
+		throw new IllegalStateException("Utility class");
+	}
+
+	public static Connection getConnection() throws SQLException {
 		Connection connection = null;
 		connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 		return connection;
